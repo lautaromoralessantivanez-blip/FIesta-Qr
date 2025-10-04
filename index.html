@@ -4,9 +4,11 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>Meseta</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script src="https://unpkg.com/@zxing/library@0.20.0"></script>
+
 <style>
 :root{
   --bg:#000;--panel:#0a0a0a;--card:#0f0f0f;--ink:#fff;--muted:#bfbfbf;--line:rgba(255,255,255,.15);
@@ -17,19 +19,17 @@ body{margin:0;color:var(--ink);font-family:"Poppins",system-ui,Segoe UI,Roboto,s
   radial-gradient(1100px 520px at 120% -20%,rgba(255,255,255,.06),transparent 60%),
   radial-gradient(900px 420px at -20% 120%,rgba(255,255,255,.05),transparent 60%),#000}
 
-/* Top */
-.top{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(0,0,0,.95),rgba(0,0,0,.78));border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+/* Header */
+.top{position:sticky;top:0;z-index:1000;background:linear-gradient(180deg,rgba(0,0,0,.95),rgba(0,0,0,.78));border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
 .wrap{max-width:1200px;margin:0 auto;padding:14px 16px}
 .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:12px}
 .brand .script{font-family:"Great Vibes",cursive;font-size:36px}
 .disco{font-size:26px;cursor:pointer;user-select:none}
 
+/* Centro: CTA */
 .center-cta{position:relative;flex:1;display:flex;justify-content:center;align-items:center}
-.center-cta .title{
-  /* sin borde ni relleno: solo texto */
-  font-weight:900;letter-spacing:.3px;color:#fff;text-shadow:0 2px 18px rgba(255,255,255,.35);
-}
+.center-cta .title{font-weight:900;letter-spacing:.3px;color:#fff;text-shadow:0 2px 18px rgba(255,255,255,.35)}
 .center-cta::before,.center-cta::after{
   content:"";position:absolute;top:50%;width:36%;height:2px;border-radius:2px;filter:blur(.4px);
   background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85),rgba(255,255,255,0));
@@ -37,19 +37,19 @@ body{margin:0;color:var(--ink);font-family:"Poppins",system-ui,Segoe UI,Roboto,s
 .center-cta::before{left:0;transform:translateY(-50%)}
 .center-cta::after{right:0;transform:translateY(-50%)}
 
-/* user area */
+/* Usuario */
 .userzone{margin-left:auto;display:flex;gap:10px;align-items:center}
 .userchip{border:1px solid var(--line);padding:6px 10px;border-radius:999px;background:#0d0d0d;cursor:pointer}
 .loginbtn{border:1px solid var(--line);padding:6px 10px;border-radius:999px;background:#111;font-weight:700;cursor:pointer}
 
-/* Menú lateral (bola disco) */
-.side{position:fixed;left:16px;top:62px;width:240px;background:#0c0c0c;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.6);display:none}
+/* Menú */
+.side{position:fixed;left:16px;top:62px;width:240px;background:#0c0c0c;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.6);display:none;z-index:999}
 .side.show{display:block}
 .side .item{padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer}
 .side .item:last-child{border-bottom:0}
 .side .item:hover{background:#121212}
 
-/* Secciones */
+/* Main & sections */
 .main{padding:20px 16px}
 .section{display:none;opacity:0;transform:translateY(6px);transition:opacity var(--t),transform var(--t)}
 .section.show{display:block;opacity:1;transform:none}
@@ -76,7 +76,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#fff;box-shado
 
 /* Métodos de pago */
 .methods{display:grid;grid-template-columns:repeat(3,minmax(240px,1fr));gap:14px}
-.method{display:flex;gap:12px;padding:16px;border:1px solid var(--line);background:#0d0d0d;border-radius:16px;cursor:pointer}
+.method{display:flex;gap:12px;padding:16px;border:1px solid var(--line);background:#0d0d0d;border-radius:16px;cursor:pointer;align-items:center}
+.method:focus{outline:2px solid rgba(255,255,255,.35);outline-offset:2px}
 .method:hover{outline:2px solid rgba(255,255,255,.25);outline-offset:2px}
 .m-ico{width:64px;height:40px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;background:#111;overflow:hidden}
 .m-title{font-weight:900}
@@ -84,23 +85,31 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#fff;box-shado
 .panel{margin-top:12px;border:1px dashed var(--line);border-radius:12px;padding:12px;display:none}
 .panel.show{display:block}
 
-/* Wallet logo */
+/* Wallet ícono */
 .wallet{width:36px;height:28px;border-radius:6px;background:#fff;position:relative}
 .wallet::before{content:"";position:absolute;left:2px;right:2px;top:6px;height:16px;border-radius:4px;background:linear-gradient(180deg,#3b82f6,#60a5fa)}
 
-/* Editor / QR */
+/* QR / vídeo */
 .qrbox{display:grid;place-items:center;padding:12px;border-radius:16px;background:#0d0d0d;border:1px dashed rgba(255,255,255,.35)}
 video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line);background:#000}
 
 /* Toast */
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;background:#0d0d0d;color:#fff;border:1px solid var(--line);padding:12px 14px;border-radius:12px;z-index:120}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;background:#0d0d0d;color:#fff;border:1px solid var(--line);padding:12px 14px;border-radius:12px;z-index:2000}
 
-/* Modal simple */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:120}
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:1500}
 .modal.show{display:flex}
 .modal-body{background:#0f0f0f;border:1px solid var(--line);border-radius:16px;max-width:520px;width:100%}
 .modal-h{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
 .modal-c{padding:14px}
+.help{font-size:.9rem;color:var(--muted)}
+.switcher{display:flex;gap:10px;align-items:center;margin-top:10px}
+.linklike{cursor:pointer;text-decoration:underline;color:#e5e5e5}
+
+/* Invitación final */
+.invite-box{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+.invite-actions{display:flex;gap:10px;flex-wrap:wrap}
+canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var(--line);background:#000}
 </style>
 </head>
 <body>
@@ -112,18 +121,16 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
       <div class="script">Meseta</div>
     </div>
 
-    <!-- CENTRO: solo texto (sin borde ni fondo) y líneas degradadas -->
     <div class="center-cta"><div class="title" id="headerTitle">Compra tu entrada aquí</div></div>
 
-    <!-- DERECHA: Invitado + Entrar (una sola registración de admin) -->
     <div class="userzone">
-      <div id="userChip" class="userchip">Invitado</div>
+      <div id="userChip" class="userchip" title="Click para cerrar sesión">Invitado</div>
       <button id="loginBtn" class="loginbtn">Entrar</button>
     </div>
   </div>
 </header>
 
-<!-- MENÚ (bola disco) -->
+<!-- Menú -->
 <div id="sideMenu" class="side">
   <div class="item" data-go="shop">Comprar</div>
   <div class="item" data-go="entries">Entradas</div>
@@ -143,23 +150,18 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
       </div>
       <div class="card-c">
         <div class="grid two">
-          <div class="field">
-            <label>Evento</label>
-            <select id="shopEvent"></select>
-          </div>
-          <div class="field">
-            <label>Tu nombre y apellido</label>
-            <input id="shopName" placeholder="Ej: Ana Pérez">
-          </div>
+          <div class="field"><label>Evento</label><select id="shopEvent"></select></div>
+          <div class="field"><label>Tu nombre y apellido</label><input id="shopName" placeholder="Ej: Ana Pérez"></div>
         </div>
 
+        <div id="pausedWarn" class="badge hidden" style="margin-top:8px;background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.35)">⚠️ Venta pausada para este evento</div>
+
         <div class="methods" style="margin-top:12px">
-          <!-- Billetera virtual -->
-          <div class="method" id="mWallet">
+          <div class="method" id="mWallet" tabindex="0" role="button" aria-label="Billetera virtual">
             <div class="m-ico"><div class="wallet"></div></div>
             <div><div class="m-title">Billetera virtual</div><div class="m-sub">Alias/CBU/CVU + comprobante</div></div>
           </div>
-          <div class="method" id="mDebit">
+          <div class="method" id="mDebit" tabindex="0" role="button" aria-label="Tarjeta de débito">
             <div class="m-ico">
               <svg viewBox="0 0 160 100"><defs><linearGradient id="deb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f5f5f5"/><stop offset="100%" stop-color="#c9c9c9"/></linearGradient></defs>
               <rect x="6" y="10" rx="12" ry="12" width="148" height="80" fill="url(#deb)"/>
@@ -168,7 +170,7 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
             </div>
             <div><div class="m-title">Tarjeta de débito</div><div class="m-sub">Formulario (usa link bancario)</div></div>
           </div>
-          <div class="method" id="mCredit">
+          <div class="method" id="mCredit" tabindex="0" role="button" aria-label="Tarjeta de crédito">
             <div class="m-ico">
               <svg viewBox="0 0 160 100"><defs><linearGradient id="cred" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff1b8"/><stop offset="100%" stop-color="#d4af37"/></linearGradient></defs>
               <rect x="6" y="10" rx="12" ry="12" width="148" height="80" fill="url(#cred)"/>
@@ -180,57 +182,61 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
         </div>
 
         <!-- Paneles -->
-        <div id="pWallet" class="panel">
+        <div id="pWallet" class="panel" aria-live="polite">
           <div class="grid two">
             <div class="field"><label>Alias / CBU / CVU (del evento)</label><input id="walletAlias" readonly></div>
             <div class="field"><label>Titular</label><input id="walletHolder" readonly></div>
           </div>
           <div class="grid two" style="margin-top:8px">
             <div class="field"><label>Subí comprobante (imagen)</label><input id="walletProof" type="file" accept="image/*"></div>
-            <div class="field" style="align-self:end"><button class="btn ok" id="walletConfirm">Confirmar pago</button></div>
+            <div class="field" style="align-self:end"><button class="btn ok" id="walletConfirm" type="button">Confirmar pago</button></div>
           </div>
         </div>
 
-        <div id="pDebit" class="panel">
+        <div id="pDebit" class="panel" aria-live="polite">
           <div class="grid two">
             <div class="field"><label>Tarjeta (simulado)</label><input placeholder="4111 1111 1111 1111"></div>
             <div class="field"><label>Vencimiento (MM/AA)</label><input placeholder="12/28"></div>
           </div>
           <div class="grid two" style="margin-top:8px">
             <div class="field"><label>Nombre en tarjeta</label><input placeholder="Nombre y apellido"></div>
-            <div class="field" style="align-self:end">
-              <button class="btn ok" id="debitPay">Pagar con link bancario</button>
-            </div>
+            <div class="field" style="align-self:end"><button class="btn ok" id="debitPay" type="button">Pagar con link bancario</button></div>
           </div>
           <div class="badge" id="bankLinkDebit">Link: —</div>
         </div>
 
-        <div id="pCredit" class="panel">
+        <div id="pCredit" class="panel" aria-live="polite">
           <div class="grid two">
             <div class="field"><label>Tarjeta (simulado)</label><input placeholder="5555 5555 5555 4444"></div>
             <div class="field"><label>Cuotas</label><select><option>1 pago</option><option>3</option><option>6</option><option>12</option></select></div>
           </div>
           <div class="row" style="margin-top:8px;justify-content:space-between">
             <div class="badge" id="bankLinkCredit">Link: —</div>
-            <button class="btn ok" id="creditPay">Pagar con link bancario</button>
+            <button class="btn ok" id="creditPay" type="button">Pagar con link bancario</button>
           </div>
         </div>
 
         <div id="shopMsg" class="badge" style="margin-top:12px">Elegí método y tocá para desplegar.</div>
 
-        <!-- Resultado -->
-        <div id="shopQR" class="hidden" style="margin-top:14px">
+        <!-- Resultado (QR + Invitación) -->
+        <div id="shopResult" class="hidden invite-box">
           <div class="grid two">
             <div class="qrbox"><div id="shopQrCanvas"></div></div>
             <div class="grid">
               <strong id="shopQrName" style="font-size:1.1rem"></strong>
               <div>Evento: <span id="shopQrEvent"></span></div>
               <div>Token: <span id="shopQrToken"></span></div>
-              <div class="row">
-                <button class="btn primary" id="shopDlQR">Descargar QR</button>
-                <button class="btn" id="shopCopy">Copiar link</button>
-              </div>
             </div>
+          </div>
+
+          <div>
+            <canvas id="invCanvas" class="invite" width="1200" height="675" aria-label="Invitación final con QR"></canvas>
+          </div>
+
+          <div class="invite-actions">
+            <button class="btn primary" id="shopDlQR" type="button">Descargar QR</button>
+            <button class="btn" id="shopCopy" type="button">Copiar link</button>
+            <button class="btn ok" id="shopDlInvite" type="button">Descargar invitación</button>
           </div>
         </div>
 
@@ -245,9 +251,7 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
       <div class="card-c">
         <div class="grid two">
           <div class="field"><label>Evento</label><select id="edEvent"></select></div>
-          <div class="row" style="align-items:end">
-            <button class="btn primary" id="edSave">Guardar diseño</button>
-          </div>
+          <div class="row" style="align-items:end"><button class="btn primary" id="edSave" type="button">Guardar diseño</button></div>
         </div>
 
         <div class="grid two" style="margin-top:10px">
@@ -277,8 +281,7 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
               <div class="field"><label>Token px</label><input id="fToken" type="range" min="20" max="64" value="34"></div>
             </div>
             <div class="field"><label>Nota px</label><input id="fNote" type="range" min="16" max="40" value="26"></div>
-
-            <div class="badge">Ejemplo: “Juan Pérez” – solo para dimensionar (el cliente verá su nombre real).</div>
+            <div class="badge">Si cambiás color de Fondo/Texto, el tema pasa a “Personalizado”.</div>
           </div>
         </div>
       </div>
@@ -292,7 +295,7 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
       <div class="card-c">
         <div class="row">
           <div class="field" style="flex:1 1 260px"><label>Limitar al evento</label><select id="scanEvent"></select></div>
-          <div class="field" style="width:210px"><label>&nbsp;</label><button class="btn primary" id="scanBtn">Iniciar cámara</button></div>
+          <div class="field" style="width:210px"><label>&nbsp;</label><button class="btn primary" id="scanBtn" type="button">Iniciar cámara</button></div>
         </div>
         <div style="margin-top:10px"><video id="video" playsinline autoplay muted></video></div>
         <div id="scanMsg" class="badge" style="margin-top:10px">Esperando…</div>
@@ -303,7 +306,7 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
   <!-- CREAR EVENTO -->
   <section id="view-event" class="section">
     <div class="card">
-      <div class="card-h"><strong>Crear evento</strong><span class="badge">Incluye alias/cvu y link bancario</span></div>
+      <div class="card-h"><strong>Crear evento</strong><span class="badge">Incluye alias/cvu, link y control de ventas</span></div>
       <div class="card-c">
         <div class="grid three">
           <div class="field"><label>Nombre</label><input id="evName" placeholder="Noche Meseta"></div>
@@ -315,7 +318,7 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
           <div class="field"><label>Titular billetera</label><input id="evHolder" placeholder="Nombre del titular"></div>
         </div>
         <div class="field" style="margin-top:8px"><label>Link bancario para tarjetas (débito/crédito)</label><input id="evBank" placeholder="https://..."></div>
-        <div class="row" style="margin-top:8px"><button class="btn primary" id="evCreate">Crear</button></div>
+        <div class="row" style="margin-top:8px"><button class="btn primary" id="evCreate" type="button">Crear</button></div>
       </div>
     </div>
 
@@ -328,14 +331,15 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
   <!-- AJUSTES -->
   <section id="view-settings" class="section">
     <div class="card">
-      <div class="card-h"><strong>Ajustes y usuarios (demo)</strong></div>
+      <div class="card-h"><strong>Ajustes y usuarios</strong></div>
       <div class="card-c">
         <div class="badge" id="ownerBadge">Dueño: —</div>
-        <h4 style="margin:10px 0 4px">Crear usuario con permisos</h4>
+
+        <h4 style="margin:12px 0 6px">Crear usuario con permisos</h4>
         <div class="grid three">
           <div class="field"><label>Correo</label><input id="uEmail" placeholder="user@mail.com"></div>
-          <div class="field"><label>Contraseña</label><input id="uPass" type="password" placeholder="******"></div>
-          <div class="field" style="display:grid;align-content:end"><button class="btn ok" id="uCreate">Crear</button></div>
+          <div class="field"><label>Contraseña</label><input id="uPass" type="password" placeholder="******" minlength="4"></div>
+          <div class="field" style="display:grid;align-content:end"><button class="btn ok" id="uCreate" type="button">Crear</button></div>
         </div>
         <div class="row" style="margin-top:8px;gap:18px">
           <label><input type="checkbox" id="pMenu" checked> Acceso bola disco (menú)</label>
@@ -343,148 +347,203 @@ video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line
           <label><input type="checkbox" id="pScan" checked> Escanear</label>
           <label><input type="checkbox" id="pEvent" checked> Crear evento</label>
         </div>
-        <div style="margin-top:10px" id="uList"></div>
+
+        <div style="margin-top:12px" id="uList"></div>
+
+        <hr style="border-color:var(--line);margin:16px 0">
+        <div class="row" style="gap:8px;align-items:center">
+          <button class="btn" id="resetBtn" type="button">Reiniciar demo (borra todo)</button>
+          <span class="help">Esto limpia usuarios, eventos y diseños guardados.</span>
+        </div>
       </div>
     </div>
   </section>
 
 </main>
 
-<!-- MODAL: única registración de dueño + login -->
-<div id="firstModal" class="modal">
+<!-- MODAL: dueño (primera vez) / login -->
+<div id="firstModal" class="modal" aria-modal="true" role="dialog">
   <div class="modal-body">
-    <div class="modal-h"><strong id="firstTitle">Crear dueño</strong><button class="btn" id="firstClose">Cerrar</button></div>
+    <div class="modal-h"><strong id="firstTitle">Crear dueño</strong><button class="btn" id="firstClose" type="button">Cerrar</button></div>
     <div class="modal-c">
-      <div class="grid two">
-        <div class="field"><label>Correo</label><input id="firstEmail" placeholder="tu@mail.com"></div>
-        <div class="field"><label>Contraseña</label><input id="firstPass" type="password" placeholder="******"></div>
-      </div>
-      <div class="row" style="margin-top:10px"><button class="btn ok" id="firstCreate">Confirmar</button><div class="badge" id="firstMsg"></div></div>
+      <form id="firstForm">
+        <div class="grid two">
+          <div class="field">
+            <label>Correo</label>
+            <input id="firstEmail" autocomplete="username email" required placeholder="tu@mail.com" inputmode="email">
+          </div>
+          <div class="field">
+            <label>Contraseña</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input id="firstPass" type="password" autocomplete="current-password" required placeholder="******" minlength="4" style="flex:1">
+              <button type="button" class="btn" id="togglePass" title="Mostrar/ocultar">👁️</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="switcher">
+          <span class="help" id="modeHelp">Primera vez: crea el dueño (admin).</span>
+          <span class="linklike" id="switchMode"></span>
+        </div>
+
+        <div class="row" style="margin-top:12px">
+          <button type="submit" class="btn ok" id="firstCreate">Confirmar</button>
+          <div class="badge" id="firstMsg" aria-live="polite"></div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
 
 <script>
-/* ===== util ===== */
+"use strict";
+
+/* ===== helpers ===== */
 const $=id=>document.getElementById(id);
+const qs=(sel,root=document)=>root.querySelector(sel);
 function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200);}
 function token(){return Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Date.now().toString(36).slice(-4).toUpperCase();}
 function buildURL(u,g){const base=(location.origin&&location.origin!=='null')?(location.origin+location.pathname):(location.href.split('#')[0].split('?')[0]);return `${base}?u=${encodeURIComponent(u)}&g=${encodeURIComponent(g.id)}&t=${encodeURIComponent(g.token)}`;}
-async function drawQR(wrap,text,size=260){const el=$(wrap); el.innerHTML=''; const c=document.createElement('canvas'); c.width=c.height=size; el.appendChild(c); await new Promise((res,rej)=>QRCode.toCanvas(c,String(text),{width:size,errorCorrectionLevel:'M',margin:2},(e)=>e?rej(e):res()));}
+async function drawQRCanvas(text,size=260){const c=document.createElement('canvas'); c.width=c.height=size; await new Promise((res,rej)=>QRCode.toCanvas(c,String(text),{width:size,errorCorrectionLevel:'M',margin:2},(e)=>e?rej(e):res())); return c;}
+async function drawQR(wrap,text,size=260){const el=$(wrap); el.innerHTML=''; const c=await drawQRCanvas(text,size); el.appendChild(c);}
 
-/* ===== estado demo ===== */
-const state = JSON.parse(localStorage.getItem('meseta_demo')||'{}');
+/* ===== estado (local demo) ===== */
+const LSKEY='meseta_v6_sales_pause';
+const state = (()=>{ try{ return JSON.parse(localStorage.getItem(LSKEY)||'{}'); }catch(_){ return {}; }})();
 state.users = state.users||[]; // {email, pass, perms{menu,entries,scan,event}}
 state.owner = state.owner||null; // {email}
-state.current = state.current||null; // email
-state.events = state.events||[];   // {id,nombre,fecha,price,payment{alias,holder,bank},design{...}}
+state.current = state.current||null; // email (logged)
+state.events = state.events||[];   // {id,nombre,fecha,price,payment{alias,holder,bank},design{...}, sold, paused}
 save();
+function save(){ try{ localStorage.setItem(LSKEY,JSON.stringify(state)); }catch(_){ /* ignore quota */ }}
 
-function save(){localStorage.setItem('meseta_demo',JSON.stringify(state));}
+/* ===== auth utils ===== */
+const normalizeEmail=s=>(s||'').trim().toLowerCase();
+const validEmail=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+const currentUser=()=>state.users.find(u=>u.email===state.current)||null;
+const isOwner=()=>!!(state.current && state.owner && state.current===state.owner.email);
 
-/* ===== dueño inicial / login controlado por botón "Entrar" ===== */
-function showFirst(asLogin=false){
-  $('firstTitle').textContent = (!state.owner && !asLogin) ? 'Crear dueño' : 'Entrar';
-  $('firstCreate').textContent = (!state.owner && !asLogin) ? 'Crear dueño' : 'Entrar';
+/* ===== dueño / login modal ===== */
+let loginMode = false;
+function setFirstMode(forceLogin=null){
+  loginMode = (forceLogin!==null)?forceLogin:(!!state.owner);
+  $('firstTitle').textContent = (!state.owner && !loginMode)?'Crear dueño':'Entrar';
+  $('firstCreate').textContent = (!state.owner && !loginMode)?'Crear dueño':'Entrar';
   $('firstEmail').value = state.owner?.email || '';
   $('firstPass').value = '';
   $('firstMsg').textContent='';
-  $('firstModal').classList.add('show');
+  $('firstClose').style.display = (!state.owner ? 'none' : 'inline-flex');
+  $('modeHelp').textContent = (!state.owner && !loginMode) ? 'Primera vez: crea el dueño (admin).' : 'Ingresá con tu correo y contraseña.';
+  $('switchMode').textContent = (!!state.owner) ? (loginMode ? '¿Necesitás ayuda para entrar?' : '¿Ya existe el dueño? Entrar') : '';
+  $('switchMode').style.display = (!!state.owner) ? 'inline' : 'none';
+  setTimeout(()=>$('firstEmail').focus(), 50);
 }
-function hideFirst(){ $('firstModal').classList.remove('show'); }
-$('firstClose').onclick=hideFirst;
-
-$('loginBtn').onclick=()=>{
-  // si no hay dueño -> única registración
-  showFirst(!!state.owner);
-};
-
-$('firstCreate').onclick=()=>{
-  const email=$('firstEmail').value.trim().toLowerCase();
+const showFirst=(forceLogin=null)=>{ setFirstMode(forceLogin); $('firstModal').classList.add('show'); }
+const hideFirst=()=>$('firstModal').classList.remove('show');
+$('firstClose').addEventListener('click', hideFirst);
+$('togglePass').addEventListener('click', ()=>{ const i=$('firstPass'); i.type = (i.type==='password')?'text':'password'; i.focus(); });
+$('switchMode').addEventListener('click', ()=>setFirstMode(true));
+$('loginBtn').addEventListener('click', ()=>showFirst(true));
+$('firstForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const email=normalizeEmail($('firstEmail').value);
   const pass=$('firstPass').value||'';
-  if(!email||!pass){$('firstMsg').textContent='Completá ambos campos';return;}
-  if(!state.owner){
-    // crear único admin
+  if(!email||!pass) return $('firstMsg').textContent='Completá ambos campos';
+  if(!validEmail(email)) return $('firstMsg').textContent='Correo inválido';
+  if(pass.length<4) return $('firstMsg').textContent='Mínimo 4 caracteres';
+  if(!state.owner && !loginMode){
+    if(state.users.some(u=>u.email===email)) return $('firstMsg').textContent='Ese correo ya existe';
     state.owner={email};
     state.users=[{email,pass,perms:{menu:true,entries:true,scan:true,event:true}}];
     state.current=email; save(); hydrateUI(); hideFirst(); toast('Dueño creado ✔️');
   }else{
-    // login del dueño (o de otro usuario creado en ajustes)
     const u=state.users.find(x=>x.email===email && x.pass===pass);
     if(u){ state.current=u.email; save(); hydrateUI(); hideFirst(); toast('Sesión iniciada'); }
-    else{$('firstMsg').textContent='Credenciales inválidas';}
+    else{$('firstMsg').textContent='Credenciales inválidas'}
   }
-};
+});
+function logout(){ state.current=null; save(); hydrateUI(); }
+$('userChip').addEventListener('click', ()=>{ if(!state.current) return; if(confirm('¿Cerrar sesión?')) logout(); });
 
-function hydrateUI(){
-  $('ownerBadge').textContent='Dueño: ' + (state.owner?state.owner.email:'—');
-  $('userChip').textContent = state.current || 'Invitado';
-  // mostrar/ocultar "Entrar"
-  $('loginBtn').classList.toggle('hidden', !!state.current);
-  renderUsers(); renderEvents(); fillCombos(); refreshDesignEditor();
-}
-function logout(){state.current=null; save(); hydrateUI();}
+/* auto abrir primera vez */
+window.addEventListener('load', ()=>{
+  hydrateUI();
+  if(!state.owner){ showFirst(false); toast('Creá tu usuario admin (una sola vez)'); }
+});
 
-/* Chip (correo) -> cerrar sesión */
-$('userChip').onclick=()=>{
-  if(!state.current) return;
-  if(confirm('¿Cerrar sesión?')) logout();
-};
-
-/* ===== menú bola disco con permisos ===== */
-function currentUser(){ return state.users.find(u=>u.email===state.current)||null; }
-$('discoBtn').onclick=(e)=>{
+/* ===== menú & navegación (permisos) ===== */
+$('discoBtn').addEventListener('click', ()=>{
   const u=currentUser();
   if(!u || !u.perms?.menu){ toast('No tenés permiso para abrir el menú'); return; }
   $('sideMenu').classList.toggle('show');
-};
+});
 $('sideMenu').addEventListener('click',(e)=>{
   const it=e.target.closest('.item'); if(!it) return;
-  const go=it.dataset.go; show(go);
-  $('sideMenu').classList.remove('show');
+  const go=it.dataset.go; show(go); $('sideMenu').classList.remove('show');
 });
 function show(view){
   const map={shop:'view-shop',entries:'view-entries',scan:'view-scan',event:'view-event',settings:'view-settings'};
-  Object.values(map).forEach(id=>{ const el=$(id); el.classList.toggle('show', id===map[view]); el.style.display = id===map[view]?'block':'none'; });
+  Object.values(map).forEach(id=>{ const el=$(id); const on=(id===map[view]); el.classList.toggle('show',on); el.style.display=on?'block':'none'; });
 }
 
-/* ===== crear usuarios y permisos (demo) ===== */
-$('uCreate').onclick=()=>{
-  const email=$('uEmail').value.trim().toLowerCase(); const pass=$('uPass').value||'';
-  if(!email||!pass) return toast('Completá correo y contraseña');
+/* ===== Ajustes: usuarios & permisos ===== */
+$('uCreate').addEventListener('click', ()=>{
+  if(!isOwner()) return toast('Solo el dueño puede crear usuarios');
+  const email=normalizeEmail($('uEmail').value); const pass=$('uPass').value||'';
+  if(!validEmail(email)) return toast('Correo inválido');
+  if(pass.length<4) return toast('Contraseña muy corta');
   if(state.users.some(u=>u.email===email)) return toast('Ya existe ese correo');
   state.users.push({email,pass,perms:{menu:$('pMenu').checked,entries:$('pEntries').checked,scan:$('pScan').checked,event:$('pEvent').checked}});
+  $('uEmail').value='';$('uPass').value='';
   save(); renderUsers(); toast('Usuario creado');
-};
+});
 function renderUsers(){
   const box=$('uList'); box.innerHTML='';
   state.users.forEach(u=>{
     const div=document.createElement('div'); div.className='badge'; div.style.marginRight='6px';
-    div.textContent = `${u.email} · perms: ${Object.keys(u.perms).filter(k=>u.perms[k]).join(', ')||'—'}`;
+    const tag = (state.owner && u.email===state.owner.email)?' (dueño)':'';
+    div.textContent = `${u.email}${tag} · perms: ${Object.keys(u.perms).filter(k=>u.perms[k]).join(', ')||'—'}`;
     box.appendChild(div);
   });
 }
+$('resetBtn').addEventListener('click', ()=>{
+  if(!confirm('Esto borrará todos los datos locales. ¿Continuar?')) return;
+  localStorage.removeItem(LSKEY);
+  state.users=[]; state.owner=null; state.current=null; state.events=[]; save(); hydrateUI();
+  show('shop'); showFirst(false);
+});
 
-/* ===== eventos ===== */
-$('evCreate').onclick=()=>{
+/* ===== Eventos ===== */
+$('evCreate').addEventListener('click', ()=>{
+  if(!isOwner()) return toast('Solo el dueño puede crear eventos');
   const nombre=$('evName').value.trim(); const fecha=$('evDate').value||''; const price=parseInt($('evPrice').value||'0',10)||0;
   const alias=$('evAlias').value.trim(); const holder=$('evHolder').value.trim(); const bank=$('evBank').value.trim();
   if(!nombre) return toast('Nombre?');
   const id='ev_'+Math.random().toString(36).slice(2,8);
-  state.events.push({id,nombre,fecha,price,payment:{alias,holder,bank},design:defaultDesign()});
+  state.events.push({id,nombre,fecha,price,payment:{alias,holder,bank},design:defaultDesign(), sold:0, paused:false});
   $('evName').value='';$('evDate').value='';$('evPrice').value='';$('evAlias').value='';$('evHolder').value='';$('evBank').value='';
   save(); renderEvents(); fillCombos(); refreshDesignEditor(); toast('Evento creado');
-};
+});
 function renderEvents(){
   const cont=$('evList'); cont.innerHTML='';
   if(!state.events.length){ cont.innerHTML='<span class="badge">Sin eventos</span>'; return; }
   state.events.slice().reverse().forEach(ev=>{
     const row=document.createElement('div'); row.className='row'; row.style.cssText='justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)';
-    row.innerHTML = `<div><strong>${ev.nombre}</strong> · ${ev.fecha||'—'} · <span class="badge">ARS ${ev.price}</span> · <span class="badge">alias/cbu: ${(ev.payment?.alias||'—')}</span></div>
-                     <button class="btn" data-del="${ev.id}">Eliminar</button>`;
+    const pausedTxt = ev.paused?'<span class="badge" style="background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.35)">Pausado</span>':'';
+    row.innerHTML = `<div><strong>${ev.nombre}</strong> · ${ev.fecha||'—'} · <span class="badge">ARS ${ev.price}</span> · <span class="badge">${ev.payment?.alias||'—'}</span> · <span class="badge">Vendidos: ${ev.sold||0}</span> ${pausedTxt}</div>
+                     ${isOwner()?`<div class="row" style="gap:8px">
+                        <button class="btn" data-toggle="${ev.id}" type="button">${ev.paused?'Continuar venta':'Pausar venta'}</button>
+                        <button class="btn" data-del="${ev.id}" type="button">Eliminar</button>
+                      </div>`:''}`;
     cont.appendChild(row);
   });
-  cont.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{ state.events=state.events.filter(e=>e.id!==b.dataset.del); save(); renderEvents(); fillCombos(); });
+  cont.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click', ()=>{
+    state.events=state.events.filter(e=>e.id!==b.dataset.del); save(); renderEvents(); fillCombos();
+  }));
+  cont.querySelectorAll('[data-toggle]').forEach(b=>b.addEventListener('click', ()=>{
+    const ev=state.events.find(e=>e.id===b.dataset.toggle); if(!ev) return;
+    ev.paused = !ev.paused; save(); renderEvents(); setShopPrice(); toast(ev.paused?'Venta pausada':'Venta reanudada');
+  }));
 }
 function fillCombos(){
   const opts=state.events.map(e=>`<option value="${e.id}">${e.nombre}</option>`).join('');
@@ -493,45 +552,145 @@ function fillCombos(){
   $('scanEvent').innerHTML=`<option value="">(Todos)</option>${opts}`;
   setShopPrice();
 }
-$('shopEvent').onchange=setShopPrice;
+
+/* ===== Compra ===== */
+$('shopEvent').addEventListener('change', ()=>{ setShopPrice(); resetShopResult(); });
+$('shopName').addEventListener('input', resetShopResult);
 function setShopPrice(){
   const ev=state.events.find(e=>e.id===$('shopEvent').value);
   $('shopPrice').textContent = ev?`Precio: ARS ${ev.price}`:'Precio: —';
-  // hidratar paneles con datos del evento
   $('walletAlias').value=ev?.payment?.alias||''; $('walletHolder').value=ev?.payment?.holder||'';
   $('bankLinkDebit').textContent = 'Link: ' + (ev?.payment?.bank||'—');
   $('bankLinkCredit').textContent = 'Link: ' + (ev?.payment?.bank||'—');
+  $('pausedWarn').classList.toggle('hidden', !(ev && ev.paused));
 }
-
-/* ===== métodos de pago => paneles ===== */
+function resetShopResult(){
+  $('shopResult').classList.add('hidden');
+  $('shopQrCanvas').innerHTML='';
+  $('shopMsg').textContent='Elegí método y tocá para desplegar.';
+}
 function togglePanel(id){ ['pWallet','pDebit','pCredit'].forEach(x=>$(x).classList.toggle('show',x===id)); }
-$('mWallet').onclick=()=>togglePanel('pWallet');
-$('mDebit').onclick=()=>togglePanel('pDebit');
-$('mCredit').onclick=()=>togglePanel('pCredit');
+;['mWallet','mDebit','mCredit'].forEach(id=>{
+  $(id).addEventListener('click', ()=>{
+    const ev=state.events.find(e=>e.id===$('shopEvent').value);
+    if(ev?.paused){ toast('Ventas pausadas para este evento'); return; }
+    togglePanel(id==='mWallet'?'pWallet':id==='mDebit'?'pDebit':'pCredit');
+  });
+  $(id).addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); $(id).click(); }});
+});
+$('walletConfirm').addEventListener('click', ()=>emitirInvitacion('wallet'));
+$('debitPay').addEventListener('click', ()=>emitirInvitacion('debit'));
+$('creditPay').addEventListener('click', ()=>emitirInvitacion('credit'));
 
-$('walletConfirm').onclick=() => emitirQR('wallet');
-$('debitPay').onclick   =() => emitirQR('debit');
-$('creditPay').onclick  =() => emitirQR('credit');
-
-async function emitirQR(source){
+async function emitirInvitacion(source){
   const evId=$('shopEvent').value; const name=($('shopName').value||'').trim();
-  if(!evId) return toast('Elegí evento'); if(!name) return toast('Poné tu nombre');
-  const ev=state.events.find(e=>e.id===evId); if(!ev) return;
-  if((source==='debit'||source==='credit') && !ev.payment?.bank) return toast('El evento no tiene link bancario');
-  // emite (demo)
+  const ev=state.events.find(e=>e.id===evId);
+  if(!evId) return toast('Elegí evento');
+  if(ev?.paused) return toast('Ventas pausadas para este evento');
+  if(!name) return toast('Poné tu nombre');
+  if(!ev) return toast('Evento inválido');
+  if((source==='debit'||source==='credit') && !ev.payment?.bank) return toast('Falta el link bancario del evento');
+
+  // Generar token y enlace
   const gid='g_'+Math.random().toString(36).slice(2,8); const tok=token();
   const url=buildURL(state.owner?.email||'owner', {id:gid, token:tok});
+
+  // 1) QR visible y texto
   await drawQR('shopQrCanvas', url, 260);
   $('shopQrName').textContent=name; $('shopQrEvent').textContent=ev.nombre; $('shopQrToken').textContent=tok;
-  $('shopQR').classList.remove('hidden');
-  $('shopMsg').textContent='¡Gracias por su compra! La invitación se enviará al verificar el pago.';
-  $('shopDlQR').onclick=()=>{const c=document.querySelector('#shopQrCanvas canvas'); const a=document.createElement('a'); a.download=`QR_${name.replace(/\s+/g,'_')}.png`; a.href=c.toDataURL('image/png'); a.click();}
-  $('shopCopy').onclick=async()=>{try{await navigator.clipboard.writeText(url);toast('Enlace copiado');}catch{toast('No se pudo copiar');}}
+
+  // 2) Dibujar invitación final con personalización
+  await drawInvitationOnCanvas('invCanvas', ev, name, tok, url);
+
+  // 3) Mostrar resultados + acciones
+  $('shopResult').classList.remove('hidden');
+  $('shopMsg').textContent='¡Listo! Descargá tu invitación o compartí el link.';
+
+  // 4) Acciones
+  $('shopDlQR').onclick=()=>{const c=qs('#shopQrCanvas canvas'); const a=document.createElement('a'); a.download=`QR_${sanitize(name)}.png`; a.href=c.toDataURL('image/png'); a.click();};
+  $('shopCopy').onclick=async()=>{try{await navigator.clipboard.writeText(url);toast('Enlace copiado');}catch{toast('No se pudo copiar');}};
+  $('shopDlInvite').onclick=()=>{const c=$('invCanvas'); const a=document.createElement('a'); a.download=`INVITACION_${sanitize(name)}.png`; a.href=c.toDataURL('image/png'); a.click();};
+
+  // 5) Sumamos venta
+  ev.sold = (ev.sold||0)+1; save(); renderEvents();
 }
 
-/* ===== Escáner (demo formato) ===== */
+function sanitize(s){return String(s).trim().replace(/\s+/g,'_').replace(/[^\w\-]/g,'');}
+
+/* ===== Generador de invitación FINAL ===== */
+function defaultDesign(){return {theme:'noche',bg:'#000000',tx:'#ffffff',logo:null,logoCfg:{x:60,y:560,scale:160},fonts:{head:46,event:72,guest:40,token:34,note:26}};}
+async function drawInvitationOnCanvas(canvasId, ev, guestName, tk, url){
+  const c=$(canvasId), ctx=c.getContext('2d');
+  const d=ev?.design || defaultDesign();
+
+  // Fondo/tema
+  if(d.theme==='oro'){
+    const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#fff7d1');g.addColorStop(.55,'#f5d777');g.addColorStop(1,'#d4af37');
+    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.08)'; for(let i=0;i<18;i++) ctx.fillRect(70*i,0,1,c.height);
+  }else if(d.theme==='plata'){
+    const g=ctx.createLinearGradient(0,0,c.width,0); g.addColorStop(0,'#f5f7fa');g.addColorStop(1,'#cfd8dc');
+    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);
+  }else if(d.theme==='noche'){
+    const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#0b1020');g.addColorStop(1,'#1f2937');
+    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(255,255,255,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);
+  }else{
+    ctx.fillStyle=d.bg||'#000'; ctx.fillRect(0,0,c.width,c.height);
+  }
+  ctx.fillStyle = d.tx||'#fff';
+
+  const F=d.fonts||defaultDesign().fonts;
+  // Textos
+  ctx.font=`800 ${F.head}px "Poppins",sans-serif`; ctx.fillText('ESTÁS INVITADO/A A',60,80+F.head);
+  ctx.font=`900 ${F.event}px "Poppins",sans-serif`; wrap(ctx, ev?.nombre||'Evento Meseta', 60, 150+F.head, 680, F.event);
+  ctx.font=`700 ${F.guest}px "Poppins",sans-serif`; wrap(ctx, `Invitado/a: ${guestName}`, 60, 170+F.head+F.event, 680, F.guest);
+  ctx.font=`600 ${F.token}px "Poppins",sans-serif`; ctx.fillText(`Token: ${tk}`, 60, 200+F.head+F.event+F.guest);
+  ctx.font=`500 ${F.note}px "Poppins",sans-serif`; ctx.fillText('Presentá este flyer al ingresar. El QR o el token son de uso único.',60,230+F.head+F.event+F.guest);
+
+  // QR del link real
+  const qrC = await drawQRCanvas(url, 260);
+  const qrX=c.width-60-260, qrY=60; ctx.save(); ctx.shadowColor='rgba(0,0,0,.18)'; ctx.shadowBlur=12; ctx.fillStyle='#fff';
+  roundRect(ctx,qrX-10,qrY-10,280,280,16); ctx.fill(); ctx.restore(); ctx.drawImage(qrC,qrX,qrY,260,260);
+
+  // Logo
+  if(d.logo){
+    await new Promise((res)=>{
+      const img=new Image();
+      img.onload=()=>{ 
+        const baseW=360,scale=(d.logoCfg?.scale||160)/100;
+        const w=Math.max(40,Math.round(baseW*scale));
+        const ratio=img.naturalWidth/img.naturalHeight;
+        const h=Math.round(w/ratio);
+        const x=Math.min(Math.max(0,d.logoCfg?.x||60),1200-w);
+        const y=Math.min(Math.max(0,d.logoCfg?.y||560),675-h);
+        ctx.drawImage(img,x,y,w,h);
+        res();
+      };
+      img.src=d.logo; 
+    });
+  }
+}
+
+/* ===== Utilidades de canvas ===== */
+function wrap(ctx,text,x,y,maxW,lh){
+  const words=String(text||'').split(' ');
+  let line='',yy=y;
+  for(let n=0;n<words.length;n++){
+    const test=line+words[n]+' ';
+    if(ctx.measureText(test).width>maxW&&n>0){ctx.fillText(line,x,yy); line=words[n]+' '; yy+=lh+12;}
+    else line=test;
+  }
+  ctx.fillText(line,x,yy);
+}
+function roundRect(ctx,x,y,w,h,r){
+  const rr=Math.min(r,w/2,h/2); ctx.beginPath();
+  ctx.moveTo(x+rr,y); ctx.arcTo(x+w,y,x+w,y+h,rr); ctx.arcTo(x+w,y+h,x,y+h,rr);
+  ctx.arcTo(x,y+h,x,y,rr); ctx.arcTo(x,y,x+w,y,rr); ctx.closePath();
+}
+
+/* ===== Escáner (demo) ===== */
 let stream=null, zxing=null, raf=null, detector=null, busy=false,last='';
-$('scanBtn').onclick=async()=>{
+$('scanBtn').addEventListener('click', async ()=>{
+  const u=currentUser(); if(!u || !u.perms?.scan) return toast('No tenés permiso para escanear');
   if(stream){ stopScan(); $('scanBtn').textContent='Iniciar cámara'; return; }
   try{
     stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
@@ -543,49 +702,77 @@ $('scanBtn').onclick=async()=>{
     zxing=new ZXing.BrowserMultiFormatReader(); zxing.decodeFromVideoElementContinuously(v, async (r,err)=>{ if(r?.getText){ await onDecoded(r.getText()); } });
     $('scanBtn').textContent='Detener cámara';
   }catch(e){console.error(e);$('scanMsg').textContent='No se pudo abrir la cámara';}
-};
+});
 function stopScan(){ if(raf)cancelAnimationFrame(raf); if(zxing){try{zxing.reset();}catch{}} if(stream){stream.getTracks().forEach(t=>t.stop());} stream=null; $('video').srcObject=null; busy=false; last=''; $('scanMsg').textContent='Cámara detenida'; }
 async function onDecoded(txt){ if(busy||!txt||txt===last) return; busy=true; last=txt; try{ const u=new URL(txt); const ok=u.searchParams.get('u')&&u.searchParams.get('g')&&u.searchParams.get('t'); $('scanMsg').textContent= ok?'✅ QR válido (demo)':'❌ Formato no válido'; }catch{ $('scanMsg').textContent='❌ QR inválido'; } finally{ setTimeout(()=>busy=false,900); } }
 
-/* ===== Editor (mismo formato que tu flyer) ===== */
-function defaultDesign(){return {theme:'noche',bg:'#000000',tx:'#ffffff',logo:null,logoCfg:{x:60,y:560,scale:160},fonts:{head:46,event:72,guest:40,token:34,note:26}};}
-const sample={guest:'Juan Pérez', token:'ABCD-1F2G'};
-['edEvent','edTheme','edBg','edTx','edLogo','edScale','edX','edY','fHead','fEvent','fGuest','fToken','fNote'].forEach(id=>{
-  const el=$(id); el.oninput=()=>{applyControlsToDesign(); paintDesign();};
+/* ===== Editor (preview y guardado) ===== */
+let editorTemp = defaultDesign(); // para preview si no hay evento
+// cuando tocás color, forzamos "custom"
+$('edBg').addEventListener('input', ()=>{ $('edTheme').value='custom'; applyControlsToDesign(true); paintDesign(); });
+$('edTx').addEventListener('input', ()=>{ $('edTheme').value='custom'; applyControlsToDesign(true); paintDesign(); });
+// listeners generales
+;['edEvent','edTheme','edScale','edX','edY','fHead','fEvent','fGuest','fToken','fNote'].forEach(id=>{
+  $(id).addEventListener('input', ()=>{applyControlsToDesign(); paintDesign();});
 });
-$('edSave').onclick=()=>{ const ev = currentEditEvent(); if(!ev) return toast('Elegí evento'); ev.design = getControlsDesign(); save(); toast('Diseño guardado'); };
-
+$('edSave').addEventListener('click', ()=>{
+  if(!isOwner()) return toast('Solo el dueño puede guardar diseño');
+  const ev = currentEditEvent(); if(!ev) return toast('Elegí evento');
+  ev.design = getControlsDesign(); save(); toast('Diseño guardado');
+});
 function currentEditEvent(){ const id=$('edEvent').value; return state.events.find(e=>e.id===id); }
 function refreshDesignEditor(){
-  const ev=currentEditEvent(); if(!ev){ paintDesign(true); return; }
-  const d=ev.design||defaultDesign();
+  const ev=currentEditEvent();
+  const d=ev?.design || editorTemp || defaultDesign();
   $('edTheme').value=d.theme; $('edBg').value=d.bg; $('edTx').value=d.tx;
   $('edScale').value=d.logoCfg.scale; $('edX').value=d.logoCfg.x; $('edY').value=d.logoCfg.y;
   $('fHead').value=d.fonts.head; $('fEvent').value=d.fonts.event; $('fGuest').value=d.fonts.guest; $('fToken').value=d.fonts.token; $('fNote').value=d.fonts.note;
   paintDesign();
 }
-$('edEvent').onchange=()=>refreshDesignEditor();
-$('edLogo').onchange=(e)=>{
+$('edEvent').addEventListener('change', refreshDesignEditor);
+$('edLogo').addEventListener('change',(e)=>{
   const f=e.target.files?.[0]; if(!f) return;
-  const r=new FileReader(); r.onload=()=>{ const ev=currentEditEvent(); if(!ev) return; ev.design = ev.design||defaultDesign(); ev.design.logo=r.result; save(); paintDesign(); toast('Logo cargado'); }; r.readAsDataURL(f);
-};
+  const r=new FileReader();
+  r.onload=()=>{
+    const ev=currentEditEvent();
+    if(ev){ ev.design = ev.design||defaultDesign(); ev.design.logo=r.result; save(); toast('Logo guardado en el evento'); }
+    else   { editorTemp.logo=r.result; toast('Logo aplicado al preview (elegí evento para guardarlo)'); }
+    paintDesign();
+  };
+  r.readAsDataURL(f);
+});
 function getControlsDesign(){
-  const ev=currentEditEvent(); const base=ev?.design||defaultDesign();
+  const ev=currentEditEvent(); const base=(ev?.design || editorTemp || defaultDesign());
   return {
     theme:$('edTheme').value, bg:$('edBg').value, tx:$('edTx').value, logo:base.logo,
     logoCfg:{x:parseInt($('edX').value,10), y:parseInt($('edY').value,10), scale:parseInt($('edScale').value,10)},
     fonts:{head:parseInt($('fHead').value,10), event:parseInt($('fEvent').value,10), guest:parseInt($('fGuest').value,10), token:parseInt($('fToken').value,10), note:parseInt($('fNote').value,10)}
   };
 }
-function applyControlsToDesign(){ const ev=currentEditEvent(); if(!ev) return; ev.design = getControlsDesign(); save(); }
-async function paintDesign(blank){
+function applyControlsToDesign(forceCustom=false){
+  const ev=currentEditEvent();
+  const next = getControlsDesign();
+  if(forceCustom) next.theme='custom';
+  if(ev){ ev.design = {...(ev.design||defaultDesign()), ...next}; save(); }
+  else  { editorTemp = {...(editorTemp||defaultDesign()), ...next}; }
+}
+async function paintDesign(){
   const c=$('edCanvas'), ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
-  const ev=currentEditEvent(); const d=ev?.design||defaultDesign();
-  // fondo / temas
-  if(d.theme==='oro'){const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#fff7d1');g.addColorStop(.55,'#f5d777');g.addColorStop(1,'#d4af37'); ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.08)'; for(let i=0;i<18;i++) ctx.fillRect(70*i,0,1,c.height);
-  }else if(d.theme==='plata'){const g=ctx.createLinearGradient(0,0,c.width,0); g.addColorStop(0,'#f5f7fa');g.addColorStop(1,'#cfd8dc'); ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);
-  }else if(d.theme==='noche'){const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#0b1020');g.addColorStop(1,'#1f2937'); ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(255,255,255,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);
-  }else{ ctx.fillStyle=d.bg||'#000'; ctx.fillRect(0,0,c.width,c.height); }
+  const ev=currentEditEvent(); const d=(ev?.design || editorTemp || defaultDesign());
+
+  // Fondo/tema
+  if(d.theme==='oro'){
+    const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#fff7d1');g.addColorStop(.55,'#f5d777');g.addColorStop(1,'#d4af37');
+    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.08)'; for(let i=0;i<18;i++) ctx.fillRect(70*i,0,1,c.height);
+  }else if(d.theme==='plata'){
+    const g=ctx.createLinearGradient(0,0,c.width,0); g.addColorStop(0,'#f5f7fa');g.addColorStop(1,'#cfd8dc');
+    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);
+  }else if(d.theme==='noche'){
+    const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#0b1020');g.addColorStop(1,'#1f2937');
+    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(255,255,255,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);
+  }else{
+    ctx.fillStyle=d.bg||'#000'; ctx.fillRect(0,0,c.width,c.height);
+  }
   ctx.fillStyle = d.tx||'#fff';
 
   const F=d.fonts;
@@ -595,27 +782,41 @@ async function paintDesign(blank){
   ctx.font=`600 ${F.token}px "Poppins",sans-serif`; ctx.fillText(`Token: ABCD-1F2G`, 60, 200+F.head+F.event+F.guest);
   ctx.font=`500 ${F.note}px "Poppins",sans-serif`; ctx.fillText('Presentá este flyer al ingresar. El QR o el token son de uso único.',60,230+F.head+F.event+F.guest);
 
-  // QR ejemplo
+  // QR demo
   const qrUrl = buildURL('owner',{id:'g_demo',token:'ABCD-1F2G'});
   const qrC=document.createElement('canvas'); await new Promise((res,rej)=>QRCode.toCanvas(qrC,qrUrl,{width:260,margin:2,errorCorrectionLevel:'M'},(e)=>e?rej(e):res()));
   const qrX=c.width-60-260, qrY=60; ctx.save(); ctx.shadowColor='rgba(0,0,0,.18)'; ctx.shadowBlur=12; ctx.fillStyle='#fff';
   roundRect(ctx,qrX-10,qrY-10,280,280,16); ctx.fill(); ctx.restore(); ctx.drawImage(qrC,qrX,qrY,260,260);
 
   // Logo
-  if(d.logo){ try{const img=new Image(); img.onload=()=>{const baseW=360,scale=(d.logoCfg.scale||160)/100; const w=Math.max(40,Math.round(baseW*scale)); const ratio=img.naturalWidth/img.naturalHeight; const h=Math.round(w/ratio); const x=Math.min(Math.max(0,d.logoCfg.x||60),1200-w); const y=Math.min(Math.max(0,d.logoCfg.y||560),675-h); ctx.drawImage(img,x,y,w,h);}; img.src=d.logo;}catch(_){}
+  if(d.logo){
+    await new Promise((res)=>{
+      const img=new Image();
+      img.onload=()=>{
+        const baseW=360,scale=(d.logoCfg.scale||160)/100;
+        const w=Math.max(40,Math.round(baseW*scale));
+        const ratio=img.naturalWidth/img.naturalHeight;
+        const h=Math.round(w/ratio);
+        const x=Math.min(Math.max(0,d.logoCfg.x||60),1200-w);
+        const y=Math.min(Math.max(0,d.logoCfg.y||560),675-h);
+        ctx.drawImage(img,x,y,w,h);
+        res();
+      };
+      img.src=d.logo;
+    });
+  }
 }
-function wrap(ctx,text,x,y,maxW,lh){const words=String(text||'').split(' '); let line='',yy=y; for(let n=0;n<words.length;n++){const test=line+words[n]+' '; if(ctx.measureText(test).width>maxW&&n>0){ctx.fillText(line,x,yy); line=words[n]+' '; yy+=lh+12;} else line=test;} ctx.fillText(line,x,yy);}
-function roundRect(ctx,x,y,w,h,r){const rr=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+rr,y); ctx.arcTo(x+w,y,x+w,y+h,rr); ctx.arcTo(x+w,y+h,x,y+h,rr); ctx.arcTo(x,y+h,x,y,rr); ctx.arcTo(x,y,x+w,y,rr); ctx.closePath();}
 
-/* ===== navegación rápida desde menú ===== */
-function go(view){ show(view); }
+/* ===== UI init ===== */
+function hydrateUI(){
+  $('ownerBadge').textContent='Dueño: ' + (state.owner?state.owner.email:'—');
+  $('userChip').textContent = state.current || 'Invitado';
+  $('loginBtn').classList.toggle('hidden', !!state.current);
+  renderUsers(); renderEvents(); fillCombos(); refreshDesignEditor();
+}
 
-/* ===== init ===== */
-window.addEventListener('load',()=>{
-  hydrateUI();
-  // demo: si no hay dueño, sugerir usar "Entrar" para crear admin
-  if(!state.owner){ toast('Toca “Entrar” para crear tu usuario admin (una sola vez)'); }
-});
+/* ===== Accesibilidad extra ===== */
+window.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ $('sideMenu').classList.remove('show'); }});
 </script>
 </body>
 </html>
