@@ -6,107 +6,63 @@
 <title>Meseta</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Cargas optimistas; el JS hace fallback si falla -->
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script src="https://unpkg.com/@zxing/library@0.20.0"></script>
 
 <style>
-:root{
-  --bg:#000;--panel:#0a0a0a;--card:#0f0f0f;--ink:#fff;--muted:#bfbfbf;--line:rgba(255,255,255,.15);
-  --radius:18px;--t:160ms cubic-bezier(.2,.6,.2,1);
-}
+:root{ --bg:#000;--panel:#0a0a0a;--card:#0f0f0f;--ink:#fff;--muted:#bfbfbf;--line:rgba(255,255,255,.15);--radius:18px;--t:160ms cubic-bezier(.2,.6,.2,1)}
 *{box-sizing:border-box} html,body{height:100%}
 body{margin:0;color:var(--ink);font-family:"Poppins",system-ui,Segoe UI,Roboto,sans-serif;background:
   radial-gradient(1100px 520px at 120% -20%,rgba(255,255,255,.06),transparent 60%),
   radial-gradient(900px 420px at -20% 120%,rgba(255,255,255,.05),transparent 60%),#000}
-
-/* Header */
 .top{position:sticky;top:0;z-index:1000;background:linear-gradient(180deg,rgba(0,0,0,.95),rgba(0,0,0,.78));border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
 .wrap{max-width:1200px;margin:0 auto;padding:14px 16px}
 .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:12px}
 .brand .script{font-family:"Great Vibes",cursive;font-size:36px}
 .disco{font-size:26px;cursor:pointer;user-select:none}
-
-/* Centro: CTA */
 .center-cta{position:relative;flex:1;display:flex;justify-content:center;align-items:center}
 .center-cta .title{font-weight:900;letter-spacing:.3px;color:#fff;text-shadow:0 2px 18px rgba(255,255,255,.35)}
-.center-cta::before,.center-cta::after{
-  content:"";position:absolute;top:50%;width:36%;height:2px;border-radius:2px;filter:blur(.4px);
-  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85),rgba(255,255,255,0));
-}
-.center-cta::before{left:0;transform:translateY(-50%)}
-.center-cta::after{right:0;transform:translateY(-50%)}
-
-/* Usuario */
+.center-cta::before,.center-cta::after{content:"";position:absolute;top:50%;width:36%;height:2px;border-radius:2px;filter:blur(.4px);background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85),rgba(255,255,255,0))}
+.center-cta::before{left:0;transform:translateY(-50%)} .center-cta::after{right:0;transform:translateY(-50%)}
 .userzone{margin-left:auto;display:flex;gap:10px;align-items:center}
 .userchip{border:1px solid var(--line);padding:6px 10px;border-radius:999px;background:#0d0d0d;cursor:pointer}
 .loginbtn{border:1px solid var(--line);padding:6px 10px;border-radius:999px;background:#111;font-weight:700;cursor:pointer}
-
-/* Menú */
 .side{position:fixed;left:16px;top:62px;width:240px;background:#0c0c0c;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.6);display:none;z-index:999}
-.side.show{display:block}
-.side .item{padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer}
-.side .item:last-child{border-bottom:0}
-.side .item:hover{background:#121212}
-
-/* Main & sections */
+.side.show{display:block} .side .item{padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer} .side .item:last-child{border-bottom:0} .side .item:hover{background:#121212}
 .main{padding:20px 16px}
 .section{display:none;opacity:0;transform:translateY(6px);transition:opacity var(--t),transform var(--t)}
 .section.show{display:block;opacity:1;transform:none}
-
-/* Card */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 14px 38px rgba(0,0,0,.55)}
 .card-h{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid var(--line)}
 .card-c{padding:16px}
 .badge{display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:#0d0d0d;color:#e2e2e2;font-size:.9rem}
-
-/* Form */
-.field{display:grid;gap:6px;min-width:0}
-label{color:var(--muted)}
+.field{display:grid;gap:6px;min-width:0} label{color:var(--muted)}
 input,select,textarea{width:100%;padding:12px;border-radius:14px;background:#0b0b0b;border:1px solid var(--line);color:var(--ink)}
 input:focus,select:focus,textarea:focus{outline:none;border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.15)}
-.grid{display:grid;gap:16px}
-.two{grid-template-columns:1fr 1fr}
-.three{grid-template-columns:repeat(3,1fr)}
-@media(max-width:1000px){.two,.three{grid-template-columns:1fr}}
-.btn{border-radius:14px;padding:10px 14px;background:#0d0d0d;border:1px solid var(--line);font-weight:800;cursor:pointer}
-.btn.primary{background:#fff;color:#000}
-.btn.ok{background:linear-gradient(180deg,rgba(34,197,94,.28),rgba(34,197,94,.4));border:1px solid rgba(34,197,94,.55)}
+.grid{display:grid;gap:16px} .two{grid-template-columns:1fr 1fr} .three{grid-template-columns:repeat(3,1fr)} @media(max-width:1000px){.two,.three{grid-template-columns:1fr}}
+.btn{border-radius:14px;padding:10px 14px;background:#0d0d0d;border:1px solid var(--line);font-weight:800;cursor:pointer;color:#fff} /* texto blanco siempre */
+.btn.primary{background:#fff;color:#000} .btn.ok{background:linear-gradient(180deg,rgba(34,197,94,.28),rgba(34,197,94,.4));border:1px solid rgba(34,197,94,.55);color:#fff}
+.btn:disabled{opacity:.75;color:#fff;background:#2a2a2a}
 .hidden{display:none!important}
-
-/* Métodos de pago */
 .methods{display:grid;grid-template-columns:repeat(3,minmax(240px,1fr));gap:14px}
 .method{display:flex;gap:12px;padding:16px;border:1px solid var(--line);background:#0d0d0d;border-radius:16px;cursor:pointer;align-items:center}
-.method:focus{outline:2px solid rgba(255,255,255,.35);outline-offset:2px}
-.method:hover{outline:2px solid rgba(255,255,255,.25);outline-offset:2px}
+.method:focus{outline:2px solid rgba(255,255,255,.35);outline-offset:2px} .method:hover{outline:2px solid rgba(255,255,255,.25);outline-offset:2px}
 .m-ico{width:64px;height:40px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;background:#111;overflow:hidden}
-.m-title{font-weight:900}
-.m-sub{color:var(--muted);font-size:.9rem}
 .panel{margin-top:12px;border:1px dashed var(--line);border-radius:12px;padding:12px;display:none}
 .panel.show{display:block}
-
-/* Wallet ícono */
 .wallet{width:36px;height:28px;border-radius:6px;background:#fff;position:relative}
 .wallet::before{content:"";position:absolute;left:2px;right:2px;top:6px;height:16px;border-radius:4px;background:linear-gradient(180deg,#3b82f6,#60a5fa)}
-
-/* QR / vídeo */
 .qrbox{display:grid;place-items:center;padding:12px;border-radius:16px;background:#0d0d0d;border:1px dashed rgba(255,255,255,.35)}
 video{width:100%;max-height:360px;border-radius:16px;border:1px solid var(--line);background:#000}
-
-/* Toast */
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;background:#0d0d0d;color:#fff;border:1px solid var(--line);padding:12px 14px;border-radius:12px;z-index:2000}
-
-/* Modal */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:1500}
-.modal.show{display:flex}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:1500}
+.modal.hidden{display:none}
 .modal-body{background:#0f0f0f;border:1px solid var(--line);border-radius:16px;max-width:520px;width:100%}
 .modal-h{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
 .modal-c{padding:14px}
-.help{font-size:.9rem;color:var(--muted)}
-.switcher{display:flex;gap:10px;align-items:center;margin-top:10px}
-.linklike{cursor:pointer;text-decoration:underline;color:#e5e5e5}
-
-/* Invitación final */
+.help{font-size:.9rem;color:#bfbfbf}
 .invite-box{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
 .invite-actions{display:flex;gap:10px;flex-wrap:wrap}
 canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var(--line);background:#000}
@@ -120,9 +76,7 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
       <div id="discoBtn" class="disco" title="Menú">🪩</div>
       <div class="script">Meseta</div>
     </div>
-
     <div class="center-cta"><div class="title" id="headerTitle">Compra tu entrada aquí</div></div>
-
     <div class="userzone">
       <div id="userChip" class="userchip" title="Click para cerrar sesión">Invitado</div>
       <button id="loginBtn" class="loginbtn">Entrar</button>
@@ -157,32 +111,13 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
         <div id="pausedWarn" class="badge hidden" style="margin-top:8px;background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.35)">⚠️ Venta pausada para este evento</div>
 
         <div class="methods" style="margin-top:12px">
-          <div class="method" id="mWallet" tabindex="0" role="button" aria-label="Billetera virtual">
-            <div class="m-ico"><div class="wallet"></div></div>
-            <div><div class="m-title">Billetera virtual</div><div class="m-sub">Alias/CBU/CVU + comprobante</div></div>
-          </div>
-          <div class="method" id="mDebit" tabindex="0" role="button" aria-label="Tarjeta de débito">
-            <div class="m-ico">
-              <svg viewBox="0 0 160 100"><defs><linearGradient id="deb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f5f5f5"/><stop offset="100%" stop-color="#c9c9c9"/></linearGradient></defs>
-              <rect x="6" y="10" rx="12" ry="12" width="148" height="80" fill="url(#deb)"/>
-              <rect x="18" y="38" width="124" height="10" rx="5" fill="#9a9a9a"/>
-              <rect x="18" y="56" width="82" height="8" rx="4" fill="#b7b7b7"/></svg>
-            </div>
-            <div><div class="m-title">Tarjeta de débito</div><div class="m-sub">Formulario (usa link bancario)</div></div>
-          </div>
-          <div class="method" id="mCredit" tabindex="0" role="button" aria-label="Tarjeta de crédito">
-            <div class="m-ico">
-              <svg viewBox="0 0 160 100"><defs><linearGradient id="cred" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff1b8"/><stop offset="100%" stop-color="#d4af37"/></linearGradient></defs>
-              <rect x="6" y="10" rx="12" ry="12" width="148" height="80" fill="url(#cred)"/>
-              <rect x="18" y="38" width="124" height="10" rx="5" fill="#b8911a"/>
-              <rect x="18" y="56" width="72" height="8" rx="4" fill="#caa22a"/></svg>
-            </div>
-            <div><div class="m-title">Tarjeta de crédito</div><div class="m-sub">Cuotas (usa link bancario)</div></div>
-          </div>
+          <div class="method" id="mWallet" tabindex="0"><div class="m-ico"><div class="wallet"></div></div><div><div class="m-title">Billetera virtual</div><div class="m-sub">Alias/CBU/CVU + comprobante</div></div></div>
+          <div class="method" id="mDebit" tabindex="0"><div class="m-ico"><svg viewBox="0 0 160 100"><defs><linearGradient id="deb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f5f5f5"/><stop offset="100%" stop-color="#c9c9c9"/></linearGradient></defs><rect x="6" y="10" rx="12" ry="12" width="148" height="80" fill="url(#deb)"/><rect x="18" y="38" width="124" height="10" rx="5" fill="#9a9a9a"/><rect x="18" y="56" width="82" height="8" rx="4" fill="#b7b7b7"/></svg></div><div><div class="m-title">Tarjeta de débito</div><div class="m-sub">Formulario (usa link bancario)</div></div></div>
+          <div class="method" id="mCredit" tabindex="0"><div class="m-ico"><svg viewBox="0 0 160 100"><defs><linearGradient id="cred" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff1b8"/><stop offset="100%" stop-color="#d4af37"/></linearGradient></defs><rect x="6" y="10" rx="12" ry="12" width="148" height="80" fill="url(#cred)"/><rect x="18" y="38" width="124" height="10" rx="5" fill="#b8911a"/><rect x="18" y="56" width="72" height="8" rx="4" fill="#caa22a"/></svg></div><div><div class="m-title">Tarjeta de crédito</div><div class="m-sub">Cuotas (usa link bancario)</div></div></div>
         </div>
 
         <!-- Paneles -->
-        <div id="pWallet" class="panel" aria-live="polite">
+        <div id="pWallet" class="panel">
           <div class="grid two">
             <div class="field"><label>Alias / CBU / CVU (del evento)</label><input id="walletAlias" readonly></div>
             <div class="field"><label>Titular</label><input id="walletHolder" readonly></div>
@@ -193,7 +128,7 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
           </div>
         </div>
 
-        <div id="pDebit" class="panel" aria-live="polite">
+        <div id="pDebit" class="panel">
           <div class="grid two">
             <div class="field"><label>Tarjeta (simulado)</label><input placeholder="4111 1111 1111 1111"></div>
             <div class="field"><label>Vencimiento (MM/AA)</label><input placeholder="12/28"></div>
@@ -205,7 +140,7 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
           <div class="badge" id="bankLinkDebit">Link: —</div>
         </div>
 
-        <div id="pCredit" class="panel" aria-live="polite">
+        <div id="pCredit" class="panel">
           <div class="grid two">
             <div class="field"><label>Tarjeta (simulado)</label><input placeholder="5555 5555 5555 4444"></div>
             <div class="field"><label>Cuotas</label><select><option>1 pago</option><option>3</option><option>6</option><option>12</option></select></div>
@@ -218,7 +153,7 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
 
         <div id="shopMsg" class="badge" style="margin-top:12px">Elegí método y tocá para desplegar.</div>
 
-        <!-- Resultado (QR + Invitación) -->
+        <!-- Resultado -->
         <div id="shopResult" class="hidden invite-box">
           <div class="grid two">
             <div class="qrbox"><div id="shopQrCanvas"></div></div>
@@ -228,11 +163,7 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
               <div>Token: <span id="shopQrToken"></span></div>
             </div>
           </div>
-
-          <div>
-            <canvas id="invCanvas" class="invite" width="1200" height="675" aria-label="Invitación final con QR"></canvas>
-          </div>
-
+          <div><canvas id="invCanvas" class="invite" width="1200" height="675"></canvas></div>
           <div class="invite-actions">
             <button class="btn primary" id="shopDlQR" type="button">Descargar QR</button>
             <button class="btn" id="shopCopy" type="button">Copiar link</button>
@@ -262,7 +193,7 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
             </div>
             <div class="grid two">
               <div class="field"><label>Fondo</label><input type="color" id="edBg" value="#000000"></div>
-              <div class="field"><label>Texto</label><input type="color" id="edTx" value="#ffffff"></div>
+              <div class="field"><label>Color del texto</label><input type="color" id="edTx" value="#ffffff"></div>
             </div>
             <div class="grid two">
               <div class="field"><label>Logo del evento</label><input id="edLogo" type="file" accept="image/*"></div>
@@ -281,7 +212,7 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
               <div class="field"><label>Token px</label><input id="fToken" type="range" min="20" max="64" value="34"></div>
             </div>
             <div class="field"><label>Nota px</label><input id="fNote" type="range" min="16" max="40" value="26"></div>
-            <div class="badge">Si cambiás color de Fondo/Texto, el tema pasa a “Personalizado”.</div>
+            <div class="badge">Tip: si elegís texto oscuro, usá un fondo claro (tema “plata” o personalizado).</div>
           </div>
         </div>
       </div>
@@ -334,7 +265,6 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
       <div class="card-h"><strong>Ajustes y usuarios</strong></div>
       <div class="card-c">
         <div class="badge" id="ownerBadge">Dueño: —</div>
-
         <h4 style="margin:12px 0 6px">Crear usuario con permisos</h4>
         <div class="grid three">
           <div class="field"><label>Correo</label><input id="uEmail" placeholder="user@mail.com"></div>
@@ -347,9 +277,7 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
           <label><input type="checkbox" id="pScan" checked> Escanear</label>
           <label><input type="checkbox" id="pEvent" checked> Crear evento</label>
         </div>
-
         <div style="margin-top:12px" id="uList"></div>
-
         <hr style="border-color:var(--line);margin:16px 0">
         <div class="row" style="gap:8px;align-items:center">
           <button class="btn" id="resetBtn" type="button">Reiniciar demo (borra todo)</button>
@@ -364,28 +292,14 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
 <!-- MODAL: dueño (primera vez) / login -->
 <div id="firstModal" class="modal" aria-modal="true" role="dialog">
   <div class="modal-body">
-    <div class="modal-h"><strong id="firstTitle">Crear dueño</strong><button class="btn" id="firstClose" type="button">Cerrar</button></div>
+    <div class="modal-h"><strong id="firstTitle">Crear dueño</strong><button class="btn hidden" id="firstClose" type="button">Cerrar</button></div>
     <div class="modal-c">
       <form id="firstForm">
         <div class="grid two">
-          <div class="field">
-            <label>Correo</label>
-            <input id="firstEmail" autocomplete="username email" required placeholder="tu@mail.com" inputmode="email">
-          </div>
-          <div class="field">
-            <label>Contraseña</label>
-            <div style="display:flex;gap:8px;align-items:center">
-              <input id="firstPass" type="password" autocomplete="current-password" required placeholder="******" minlength="4" style="flex:1">
-              <button type="button" class="btn" id="togglePass" title="Mostrar/ocultar">👁️</button>
-            </div>
-          </div>
+          <div class="field"><label>Correo</label><input id="firstEmail" autocomplete="username email" required placeholder="tu@mail.com" inputmode="email"></div>
+          <div class="field"><label>Contraseña</label><input id="firstPass" type="password" autocomplete="current-password" required placeholder="******" minlength="4"></div>
         </div>
-
-        <div class="switcher">
-          <span class="help" id="modeHelp">Primera vez: crea el dueño (admin).</span>
-          <span class="linklike" id="switchMode"></span>
-        </div>
-
+        <div class="help" id="modeHelp">Primera vez: crea el dueño (admin). Luego solo habrá login.</div>
         <div class="row" style="margin-top:12px">
           <button type="submit" class="btn ok" id="firstCreate">Confirmar</button>
           <div class="badge" id="firstMsg" aria-live="polite"></div>
@@ -398,61 +312,80 @@ canvas.invite{width:100%;max-width:720px;border-radius:14px;border:1px solid var
 <script>
 "use strict";
 
-/* ===== helpers ===== */
+/* ---------- helpers ---------- */
 const $=id=>document.getElementById(id);
 const qs=(sel,root=document)=>root.querySelector(sel);
-function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200);}
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2400);}
 function token(){return Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Date.now().toString(36).slice(-4).toUpperCase();}
 function buildURL(u,g){const base=(location.origin&&location.origin!=='null')?(location.origin+location.pathname):(location.href.split('#')[0].split('?')[0]);return `${base}?u=${encodeURIComponent(u)}&g=${encodeURIComponent(g.id)}&t=${encodeURIComponent(g.token)}`;}
-async function drawQRCanvas(text,size=260){const c=document.createElement('canvas'); c.width=c.height=size; await new Promise((res,rej)=>QRCode.toCanvas(c,String(text),{width:size,errorCorrectionLevel:'M',margin:2},(e)=>e?rej(e):res())); return c;}
-async function drawQR(wrap,text,size=260){const el=$(wrap); el.innerHTML=''; const c=await drawQRCanvas(text,size); el.appendChild(c);}
+async function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+async function ensureQRCodeLoaded(){
+  if(window.QRCode) return;
+  try{ await loadScript('https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js'); }catch(_){}
+  if(window.QRCode) return;
+  try{ await loadScript('https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js'); }catch(_){}
+}
+async function qrViaQuickChartCanvas(text,size=260){
+  const img = new Image(); img.crossOrigin='anonymous';
+  img.src='https://quickchart.io/qr?format=png&ecLevel=M&margin=1&size='+size+'&text='+encodeURIComponent(text);
+  await new Promise((res,rej)=>{img.onload=res; img.onerror=rej;});
+  const c=document.createElement('canvas'); c.width=c.height=size;
+  c.getContext('2d').drawImage(img,0,0,size,size);
+  return c;
+}
+async function drawQRCanvas(text,size=260){
+  try{
+    await ensureQRCodeLoaded();
+    if(window.QRCode){
+      const c=document.createElement('canvas'); c.width=c.height=size;
+      await new Promise((res,rej)=>window.QRCode.toCanvas(c,String(text),{width:size,errorCorrectionLevel:'M',margin:1},(e)=>e?rej(e):res()));
+      return c;
+    }
+    return await qrViaQuickChartCanvas(text,size);
+  }catch(_){ return await qrViaQuickChartCanvas(text,size); }
+}
+async function drawQR(wrap,text,size=260){ const el=$(wrap); el.innerHTML=''; el.appendChild(await drawQRCanvas(text,size)); }
 
-/* ===== estado (local demo) ===== */
-const LSKEY='meseta_v6_sales_pause';
+/* ---------- estado local ---------- */
+const LSKEY='meseta_v10_color_text_buttons_white';
 const state = (()=>{ try{ return JSON.parse(localStorage.getItem(LSKEY)||'{}'); }catch(_){ return {}; }})();
-state.users = state.users||[]; // {email, pass, perms{menu,entries,scan,event}}
-state.owner = state.owner||null; // {email}
-state.current = state.current||null; // email (logged)
-state.events = state.events||[];   // {id,nombre,fecha,price,payment{alias,holder,bank},design{...}, sold, paused}
+state.users = state.users||[];
+state.owner = state.owner||null;
+state.current = state.current||null;
+state.events = state.events||[]; // {id,nombre,fecha,price,payment,design,sold,paused}
 save();
-function save(){ try{ localStorage.setItem(LSKEY,JSON.stringify(state)); }catch(_){ /* ignore quota */ }}
+function save(){ try{ localStorage.setItem(LSKEY,JSON.stringify(state)); }catch(_){ }}
 
-/* ===== auth utils ===== */
+/* ---------- auth (un solo dueño) ---------- */
 const normalizeEmail=s=>(s||'').trim().toLowerCase();
 const validEmail=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 const currentUser=()=>state.users.find(u=>u.email===state.current)||null;
 const isOwner=()=>!!(state.current && state.owner && state.current===state.owner.email);
 
-/* ===== dueño / login modal ===== */
-let loginMode = false;
-function setFirstMode(forceLogin=null){
-  loginMode = (forceLogin!==null)?forceLogin:(!!state.owner);
-  $('firstTitle').textContent = (!state.owner && !loginMode)?'Crear dueño':'Entrar';
-  $('firstCreate').textContent = (!state.owner && !loginMode)?'Crear dueño':'Entrar';
+function setFirstMode(){
+  const onlyLogin = !!state.owner;
+  $('firstTitle').textContent = onlyLogin?'Entrar':'Crear dueño';
+  $('firstCreate').textContent = onlyLogin?'Entrar':'Crear dueño';
+  $('firstMsg').textContent='';
   $('firstEmail').value = state.owner?.email || '';
   $('firstPass').value = '';
-  $('firstMsg').textContent='';
-  $('firstClose').style.display = (!state.owner ? 'none' : 'inline-flex');
-  $('modeHelp').textContent = (!state.owner && !loginMode) ? 'Primera vez: crea el dueño (admin).' : 'Ingresá con tu correo y contraseña.';
-  $('switchMode').textContent = (!!state.owner) ? (loginMode ? '¿Necesitás ayuda para entrar?' : '¿Ya existe el dueño? Entrar') : '';
-  $('switchMode').style.display = (!!state.owner) ? 'inline' : 'none';
-  setTimeout(()=>$('firstEmail').focus(), 50);
+  $('firstClose').classList.toggle('hidden', !onlyLogin);
+  $('modeHelp').textContent = onlyLogin ? 'Ingresá con tu correo y contraseña.' : 'Primera vez: crea el dueño (admin). Luego solo habrá login.';
 }
-const showFirst=(forceLogin=null)=>{ setFirstMode(forceLogin); $('firstModal').classList.add('show'); }
-const hideFirst=()=>$('firstModal').classList.remove('show');
+const showFirst=()=>{ setFirstMode(); $('firstModal').classList.remove('hidden'); setTimeout(()=>$('firstEmail').focus(),30); }
+const hideFirst=()=>$('firstModal').classList.add('hidden');
 $('firstClose').addEventListener('click', hideFirst);
-$('togglePass').addEventListener('click', ()=>{ const i=$('firstPass'); i.type = (i.type==='password')?'text':'password'; i.focus(); });
-$('switchMode').addEventListener('click', ()=>setFirstMode(true));
-$('loginBtn').addEventListener('click', ()=>showFirst(true));
+$('loginBtn').addEventListener('click', showFirst);
+
 $('firstForm').addEventListener('submit', (e)=>{
   e.preventDefault();
   const email=normalizeEmail($('firstEmail').value);
   const pass=$('firstPass').value||'';
-  if(!email||!pass) return $('firstMsg').textContent='Completá ambos campos';
   if(!validEmail(email)) return $('firstMsg').textContent='Correo inválido';
   if(pass.length<4) return $('firstMsg').textContent='Mínimo 4 caracteres';
-  if(!state.owner && !loginMode){
-    if(state.users.some(u=>u.email===email)) return $('firstMsg').textContent='Ese correo ya existe';
+
+  if(!state.owner){
+    if(state.users.length>0) return $('firstMsg').textContent='Ya existe un usuario; no se puede crear otro dueño.';
     state.owner={email};
     state.users=[{email,pass,perms:{menu:true,entries:true,scan:true,event:true}}];
     state.current=email; save(); hydrateUI(); hideFirst(); toast('Dueño creado ✔️');
@@ -465,13 +398,12 @@ $('firstForm').addEventListener('submit', (e)=>{
 function logout(){ state.current=null; save(); hydrateUI(); }
 $('userChip').addEventListener('click', ()=>{ if(!state.current) return; if(confirm('¿Cerrar sesión?')) logout(); });
 
-/* auto abrir primera vez */
 window.addEventListener('load', ()=>{
   hydrateUI();
-  if(!state.owner){ showFirst(false); toast('Creá tu usuario admin (una sola vez)'); }
+  if(!state.owner){ showFirst(); toast('Creá tu usuario admin (una sola vez)'); }
 });
 
-/* ===== menú & navegación (permisos) ===== */
+/* ---------- navegación y permisos ---------- */
 $('discoBtn').addEventListener('click', ()=>{
   const u=currentUser();
   if(!u || !u.perms?.menu){ toast('No tenés permiso para abrir el menú'); return; }
@@ -486,7 +418,7 @@ function show(view){
   Object.values(map).forEach(id=>{ const el=$(id); const on=(id===map[view]); el.classList.toggle('show',on); el.style.display=on?'block':'none'; });
 }
 
-/* ===== Ajustes: usuarios & permisos ===== */
+/* ---------- usuarios ---------- */
 $('uCreate').addEventListener('click', ()=>{
   if(!isOwner()) return toast('Solo el dueño puede crear usuarios');
   const email=normalizeEmail($('uEmail').value); const pass=$('uPass').value||'';
@@ -510,10 +442,10 @@ $('resetBtn').addEventListener('click', ()=>{
   if(!confirm('Esto borrará todos los datos locales. ¿Continuar?')) return;
   localStorage.removeItem(LSKEY);
   state.users=[]; state.owner=null; state.current=null; state.events=[]; save(); hydrateUI();
-  show('shop'); showFirst(false);
+  show('shop'); showFirst();
 });
 
-/* ===== Eventos ===== */
+/* ---------- eventos ---------- */
 $('evCreate').addEventListener('click', ()=>{
   if(!isOwner()) return toast('Solo el dueño puede crear eventos');
   const nombre=$('evName').value.trim(); const fecha=$('evDate').value||''; const price=parseInt($('evPrice').value||'0',10)||0;
@@ -553,9 +485,10 @@ function fillCombos(){
   setShopPrice();
 }
 
-/* ===== Compra ===== */
+/* ---------- compra (QR + invitación) ---------- */
 $('shopEvent').addEventListener('change', ()=>{ setShopPrice(); resetShopResult(); });
 $('shopName').addEventListener('input', resetShopResult);
+
 function setShopPrice(){
   const ev=state.events.find(e=>e.id===$('shopEvent').value);
   $('shopPrice').textContent = ev?`Precio: ARS ${ev.price}`:'Precio: —';
@@ -583,111 +516,67 @@ $('debitPay').addEventListener('click', ()=>emitirInvitacion('debit'));
 $('creditPay').addEventListener('click', ()=>emitirInvitacion('credit'));
 
 async function emitirInvitacion(source){
-  const evId=$('shopEvent').value; const name=($('shopName').value||'').trim();
-  const ev=state.events.find(e=>e.id===evId);
-  if(!evId) return toast('Elegí evento');
-  if(ev?.paused) return toast('Ventas pausadas para este evento');
-  if(!name) return toast('Poné tu nombre');
-  if(!ev) return toast('Evento inválido');
-  if((source==='debit'||source==='credit') && !ev.payment?.bank) return toast('Falta el link bancario del evento');
+  try{
+    const evId=$('shopEvent').value; const name=($('shopName').value||'').trim();
+    const ev=state.events.find(e=>e.id===evId);
+    if(!evId) return toast('Elegí evento');
+    if(ev?.paused) return toast('Ventas pausadas para este evento');
+    if(!name) return toast('Poné tu nombre');
+    if(!ev) return toast('Evento inválido');
+    if((source==='debit'||source==='credit') && !ev.payment?.bank) return toast('Falta el link bancario del evento');
 
-  // Generar token y enlace
-  const gid='g_'+Math.random().toString(36).slice(2,8); const tok=token();
-  const url=buildURL(state.owner?.email||'owner', {id:gid, token:tok});
+    const gid='g_'+Math.random().toString(36).slice(2,8); const tok=token();
+    const url=buildURL(state.owner?.email||'owner', {id:gid, token:tok});
 
-  // 1) QR visible y texto
-  await drawQR('shopQrCanvas', url, 260);
-  $('shopQrName').textContent=name; $('shopQrEvent').textContent=ev.nombre; $('shopQrToken').textContent=tok;
+    await drawQR('shopQrCanvas', url, 260);
+    $('shopQrName').textContent=name; $('shopQrEvent').textContent=ev.nombre; $('shopQrToken').textContent=tok;
 
-  // 2) Dibujar invitación final con personalización
-  await drawInvitationOnCanvas('invCanvas', ev, name, tok, url);
+    await drawInvitationOnCanvas('invCanvas', ev, name, tok, url);
 
-  // 3) Mostrar resultados + acciones
-  $('shopResult').classList.remove('hidden');
-  $('shopMsg').textContent='¡Listo! Descargá tu invitación o compartí el link.';
+    $('shopResult').classList.remove('hidden');
+    $('shopMsg').textContent='¡Listo! Descargá tu invitación o compartí el link.';
 
-  // 4) Acciones
-  $('shopDlQR').onclick=()=>{const c=qs('#shopQrCanvas canvas'); const a=document.createElement('a'); a.download=`QR_${sanitize(name)}.png`; a.href=c.toDataURL('image/png'); a.click();};
-  $('shopCopy').onclick=async()=>{try{await navigator.clipboard.writeText(url);toast('Enlace copiado');}catch{toast('No se pudo copiar');}};
-  $('shopDlInvite').onclick=()=>{const c=$('invCanvas'); const a=document.createElement('a'); a.download=`INVITACION_${sanitize(name)}.png`; a.href=c.toDataURL('image/png'); a.click();};
+    $('shopDlQR').onclick=()=>{const c=qs('#shopQrCanvas canvas'); const a=document.createElement('a'); a.download=`QR_${sanitize(name)}.png`; a.href=c.toDataURL('image/png'); a.click();};
+    $('shopCopy').onclick=async()=>{try{await navigator.clipboard.writeText(url);toast('Enlace copiado');}catch{toast('No se pudo copiar');}};
+    $('shopDlInvite').onclick=()=>{const c=$('invCanvas'); const a=document.createElement('a'); a.download=`INVITACION_${sanitize(name)}.png`; a.href=c.toDataURL('image/png'); a.click();};
 
-  // 5) Sumamos venta
-  ev.sold = (ev.sold||0)+1; save(); renderEvents();
+    ev.sold = (ev.sold||0)+1; save(); renderEvents();
+  }catch(err){ console.error(err); toast('No se pudo generar el QR o la invitación.'); }
 }
-
 function sanitize(s){return String(s).trim().replace(/\s+/g,'_').replace(/[^\w\-]/g,'');}
 
-/* ===== Generador de invitación FINAL ===== */
-function defaultDesign(){return {theme:'noche',bg:'#000000',tx:'#ffffff',logo:null,logoCfg:{x:60,y:560,scale:160},fonts:{head:46,event:72,guest:40,token:34,note:26}};}
+/* ---------- invitación (ahora con color de texto configurable) ---------- */
+function defaultDesign(){return {theme:'noche',bg:'#0b1020',tx:'#ffffff',logo:null,logoCfg:{x:60,y:560,scale:160},fonts:{head:46,event:72,guest:40,token:34,note:26}};}
 async function drawInvitationOnCanvas(canvasId, ev, guestName, tk, url){
   const c=$(canvasId), ctx=c.getContext('2d');
   const d=ev?.design || defaultDesign();
 
-  // Fondo/tema
-  if(d.theme==='oro'){
-    const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#fff7d1');g.addColorStop(.55,'#f5d777');g.addColorStop(1,'#d4af37');
-    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.08)'; for(let i=0;i<18;i++) ctx.fillRect(70*i,0,1,c.height);
-  }else if(d.theme==='plata'){
-    const g=ctx.createLinearGradient(0,0,c.width,0); g.addColorStop(0,'#f5f7fa');g.addColorStop(1,'#cfd8dc');
-    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);
-  }else if(d.theme==='noche'){
-    const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#0b1020');g.addColorStop(1,'#1f2937');
-    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(255,255,255,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);
-  }else{
-    ctx.fillStyle=d.bg||'#000'; ctx.fillRect(0,0,c.width,c.height);
-  }
-  ctx.fillStyle = d.tx||'#fff';
+  if(d.theme==='oro'){const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#fff7d1');g.addColorStop(.55,'#f5d777');g.addColorStop(1,'#d4af37'); ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.06)'; for(let i=0;i<18;i++) ctx.fillRect(70*i,0,1,c.height);}
+  else if(d.theme==='plata'){const g=ctx.createLinearGradient(0,0,c.width,0); g.addColorStop(0,'#f5f7fa');g.addColorStop(1,'#cfd8dc'); ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);}
+  else if(d.theme==='noche'){const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#0b1020');g.addColorStop(1,'#1f2937'); ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(255,255,255,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);}
+  else{ ctx.fillStyle=d.bg||'#000'; ctx.fillRect(0,0,c.width,c.height); }
 
+  const tx = d.tx || '#ffffff';
+  ctx.fillStyle = tx;
   const F=d.fonts||defaultDesign().fonts;
-  // Textos
   ctx.font=`800 ${F.head}px "Poppins",sans-serif`; ctx.fillText('ESTÁS INVITADO/A A',60,80+F.head);
   ctx.font=`900 ${F.event}px "Poppins",sans-serif`; wrap(ctx, ev?.nombre||'Evento Meseta', 60, 150+F.head, 680, F.event);
   ctx.font=`700 ${F.guest}px "Poppins",sans-serif`; wrap(ctx, `Invitado/a: ${guestName}`, 60, 170+F.head+F.event, 680, F.guest);
   ctx.font=`600 ${F.token}px "Poppins",sans-serif`; ctx.fillText(`Token: ${tk}`, 60, 200+F.head+F.event+F.guest);
   ctx.font=`500 ${F.note}px "Poppins",sans-serif`; ctx.fillText('Presentá este flyer al ingresar. El QR o el token son de uso único.',60,230+F.head+F.event+F.guest);
 
-  // QR del link real
   const qrC = await drawQRCanvas(url, 260);
   const qrX=c.width-60-260, qrY=60; ctx.save(); ctx.shadowColor='rgba(0,0,0,.18)'; ctx.shadowBlur=12; ctx.fillStyle='#fff';
   roundRect(ctx,qrX-10,qrY-10,280,280,16); ctx.fill(); ctx.restore(); ctx.drawImage(qrC,qrX,qrY,260,260);
 
-  // Logo
   if(d.logo){
-    await new Promise((res)=>{
-      const img=new Image();
-      img.onload=()=>{ 
-        const baseW=360,scale=(d.logoCfg?.scale||160)/100;
-        const w=Math.max(40,Math.round(baseW*scale));
-        const ratio=img.naturalWidth/img.naturalHeight;
-        const h=Math.round(w/ratio);
-        const x=Math.min(Math.max(0,d.logoCfg?.x||60),1200-w);
-        const y=Math.min(Math.max(0,d.logoCfg?.y||560),675-h);
-        ctx.drawImage(img,x,y,w,h);
-        res();
-      };
-      img.src=d.logo; 
-    });
+    await new Promise((res)=>{ const img=new Image(); img.onload=()=>{ const baseW=360,scale=(d.logoCfg?.scale||160)/100; const w=Math.max(40,Math.round(baseW*scale)); const ratio=img.naturalWidth/img.naturalHeight; const h=Math.round(w/ratio); const x=Math.min(Math.max(0,d.logoCfg?.x||60),1200-w); const y=Math.min(Math.max(0,d.logoCfg?.y||560),675-h); ctx.drawImage(img,x,y,w,h); res(); }; img.src=d.logo; });
   }
 }
+function wrap(ctx,text,x,y,maxW,lh){const words=String(text||'').split(' '); let line='',yy=y; for(let n=0;n<words.length;n++){const test=line+words[n]+' '; if(ctx.measureText(test).width>maxW&&n>0){ctx.fillText(line,x,yy); line=words[n]+' '; yy+=lh+12;} else line=test;} ctx.fillText(line,x,yy);}
+function roundRect(ctx,x,y,w,h,r){const rr=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+rr,y); ctx.arcTo(x+w,y,x+w,y+h,rr); ctx.arcTo(x+w,y+h,x,y+h,rr); ctx.arcTo(x,y+h,x,y,rr); ctx.arcTo(x,y,x+w,y,rr); ctx.closePath();}
 
-/* ===== Utilidades de canvas ===== */
-function wrap(ctx,text,x,y,maxW,lh){
-  const words=String(text||'').split(' ');
-  let line='',yy=y;
-  for(let n=0;n<words.length;n++){
-    const test=line+words[n]+' ';
-    if(ctx.measureText(test).width>maxW&&n>0){ctx.fillText(line,x,yy); line=words[n]+' '; yy+=lh+12;}
-    else line=test;
-  }
-  ctx.fillText(line,x,yy);
-}
-function roundRect(ctx,x,y,w,h,r){
-  const rr=Math.min(r,w/2,h/2); ctx.beginPath();
-  ctx.moveTo(x+rr,y); ctx.arcTo(x+w,y,x+w,y+h,rr); ctx.arcTo(x+w,y+h,x,y+h,rr);
-  ctx.arcTo(x,y+h,x,y,rr); ctx.arcTo(x,y,x+w,y,rr); ctx.closePath();
-}
-
-/* ===== Escáner (demo) ===== */
+/* ---------- escáner (demo) ---------- */
 let stream=null, zxing=null, raf=null, detector=null, busy=false,last='';
 $('scanBtn').addEventListener('click', async ()=>{
   const u=currentUser(); if(!u || !u.perms?.scan) return toast('No tenés permiso para escanear');
@@ -699,21 +588,17 @@ $('scanBtn').addEventListener('click', async ()=>{
       detector=new BarcodeDetector({formats:['qr_code']}); const cvs=document.createElement('canvas'); const ctx=cvs.getContext('2d');
       const loop=async()=>{ if(!stream) return; cvs.width=v.videoWidth||640;cvs.height=v.videoHeight||480;ctx.drawImage(v,0,0,cvs.width,cvs.height); const codes=await detector.detect(cvs); if(codes?.length){ await onDecoded(codes[0].rawValue);} raf=requestAnimationFrame(loop);}; loop();
     }
-    zxing=new ZXing.BrowserMultiFormatReader(); zxing.decodeFromVideoElementContinuously(v, async (r,err)=>{ if(r?.getText){ await onDecoded(r.getText()); } });
+    zxing=new ZXing.BrowserMultiFormatReader(); zxing.decodeFromVideoElementContinuously(v, async (r)=>{ if(r?.getText){ await onDecoded(r.getText()); } });
     $('scanBtn').textContent='Detener cámara';
   }catch(e){console.error(e);$('scanMsg').textContent='No se pudo abrir la cámara';}
 });
 function stopScan(){ if(raf)cancelAnimationFrame(raf); if(zxing){try{zxing.reset();}catch{}} if(stream){stream.getTracks().forEach(t=>t.stop());} stream=null; $('video').srcObject=null; busy=false; last=''; $('scanMsg').textContent='Cámara detenida'; }
 async function onDecoded(txt){ if(busy||!txt||txt===last) return; busy=true; last=txt; try{ const u=new URL(txt); const ok=u.searchParams.get('u')&&u.searchParams.get('g')&&u.searchParams.get('t'); $('scanMsg').textContent= ok?'✅ QR válido (demo)':'❌ Formato no válido'; }catch{ $('scanMsg').textContent='❌ QR inválido'; } finally{ setTimeout(()=>busy=false,900); } }
 
-/* ===== Editor (preview y guardado) ===== */
-let editorTemp = defaultDesign(); // para preview si no hay evento
-// cuando tocás color, forzamos "custom"
-$('edBg').addEventListener('input', ()=>{ $('edTheme').value='custom'; applyControlsToDesign(true); paintDesign(); });
-$('edTx').addEventListener('input', ()=>{ $('edTheme').value='custom'; applyControlsToDesign(true); paintDesign(); });
-// listeners generales
-;['edEvent','edTheme','edScale','edX','edY','fHead','fEvent','fGuest','fToken','fNote'].forEach(id=>{
-  $(id).addEventListener('input', ()=>{applyControlsToDesign(); paintDesign();});
+/* ---------- editor (usa color de texto elegido) ---------- */
+let editorTemp = defaultDesign();
+['edBg','edTx','edEvent','edTheme','edScale','edX','edY','fHead','fEvent','fGuest','fToken','fNote'].forEach(id=>{
+  $(id).addEventListener('input', ()=>{applyControlsToDesign(id==='edBg'||id==='edTx'); paintDesign();});
 });
 $('edSave').addEventListener('click', ()=>{
   if(!isOwner()) return toast('Solo el dueño puede guardar diseño');
@@ -722,100 +607,56 @@ $('edSave').addEventListener('click', ()=>{
 });
 function currentEditEvent(){ const id=$('edEvent').value; return state.events.find(e=>e.id===id); }
 function refreshDesignEditor(){
-  const ev=currentEditEvent();
-  const d=ev?.design || editorTemp || defaultDesign();
-  $('edTheme').value=d.theme; $('edBg').value=d.bg; $('edTx').value=d.tx;
+  const ev=currentEditEvent(); const d=ev?.design || editorTemp || defaultDesign();
+  $('edTheme').value=d.theme; $('edBg').value=d.bg; $('edTx').value=d.tx||'#ffffff';
   $('edScale').value=d.logoCfg.scale; $('edX').value=d.logoCfg.x; $('edY').value=d.logoCfg.y;
   $('fHead').value=d.fonts.head; $('fEvent').value=d.fonts.event; $('fGuest').value=d.fonts.guest; $('fToken').value=d.fonts.token; $('fNote').value=d.fonts.note;
   paintDesign();
 }
 $('edEvent').addEventListener('change', refreshDesignEditor);
-$('edLogo').addEventListener('change',(e)=>{
+$('edLogo').addEventListener('change', async (e)=>{
   const f=e.target.files?.[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=()=>{
+  try{
+    const dataUrl = await fileToDataURLResized(f, 1000, 1000, 0.85);
     const ev=currentEditEvent();
-    if(ev){ ev.design = ev.design||defaultDesign(); ev.design.logo=r.result; save(); toast('Logo guardado en el evento'); }
-    else   { editorTemp.logo=r.result; toast('Logo aplicado al preview (elegí evento para guardarlo)'); }
-    paintDesign();
-  };
-  r.readAsDataURL(f);
+    if(ev){ ev.design = ev.design||defaultDesign(); ev.design.logo=dataUrl; save(); toast('Logo guardado en el evento'); }
+    else   { editorTemp.logo=dataUrl; toast('Logo aplicado al preview (elegí evento para guardarlo)'); }
+    await paintDesign();
+  }catch(err){ console.error(err); toast('No se pudo leer el logo'); }
 });
-function getControlsDesign(){
-  const ev=currentEditEvent(); const base=(ev?.design || editorTemp || defaultDesign());
-  return {
-    theme:$('edTheme').value, bg:$('edBg').value, tx:$('edTx').value, logo:base.logo,
-    logoCfg:{x:parseInt($('edX').value,10), y:parseInt($('edY').value,10), scale:parseInt($('edScale').value,10)},
-    fonts:{head:parseInt($('fHead').value,10), event:parseInt($('fEvent').value,10), guest:parseInt($('fGuest').value,10), token:parseInt($('fToken').value,10), note:parseInt($('fNote').value,10)}
-  };
+async function fileToDataURLResized(file, maxW=1000, maxH=1000, quality=0.85){
+  const dataUrl = await new Promise((resolve, reject)=>{ const fr = new FileReader(); fr.onerror = reject; fr.onload = ()=> resolve(fr.result); fr.readAsDataURL(file); });
+  const img = await loadImage(dataUrl); const {canvas,ctx} = makeCanvasScaled(img, maxW, maxH); ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  const isPng = dataUrl.startsWith('data:image/png'); return canvas.toDataURL(isPng?'image/png':'image/jpeg', quality);
 }
-function applyControlsToDesign(forceCustom=false){
-  const ev=currentEditEvent();
-  const next = getControlsDesign();
-  if(forceCustom) next.theme='custom';
-  if(ev){ ev.design = {...(ev.design||defaultDesign()), ...next}; save(); }
-  else  { editorTemp = {...(editorTemp||defaultDesign()), ...next}; }
-}
+function loadImage(src){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=src; }); }
+function makeCanvasScaled(img,maxW,maxH){ const r = Math.min(1, maxW/img.naturalWidth, maxH/img.naturalHeight); const w = Math.round(img.naturalWidth*r); const h = Math.round(img.naturalHeight*r); const cvs = document.createElement('canvas'); cvs.width=w; cvs.height=h; return {canvas:cvs, ctx:cvs.getContext('2d')}; }
+function getControlsDesign(){ const ev=currentEditEvent(); const base=(ev?.design || editorTemp || defaultDesign()); return { theme:$('edTheme').value, bg:$('edBg').value, tx:$('edTx').value, logo:base.logo, logoCfg:{x:+$('edX').value, y:+$('edY').value, scale:+$('edScale').value}, fonts:{head:+$('fHead').value, event:+$('fEvent').value, guest:+$('fGuest').value, token:+$('fToken').value, note:+$('fNote').value} }; }
+function applyControlsToDesign(forceCustom=false){ const ev=currentEditEvent(); const next = getControlsDesign(); if(forceCustom) next.theme='custom'; if(ev){ ev.design = {...(ev.design||defaultDesign()), ...next}; save(); } else { editorTemp = {...(editorTemp||defaultDesign()), ...next}; } }
 async function paintDesign(){
   const c=$('edCanvas'), ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
   const ev=currentEditEvent(); const d=(ev?.design || editorTemp || defaultDesign());
-
-  // Fondo/tema
-  if(d.theme==='oro'){
-    const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#fff7d1');g.addColorStop(.55,'#f5d777');g.addColorStop(1,'#d4af37');
-    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.08)'; for(let i=0;i<18;i++) ctx.fillRect(70*i,0,1,c.height);
-  }else if(d.theme==='plata'){
-    const g=ctx.createLinearGradient(0,0,c.width,0); g.addColorStop(0,'#f5f7fa');g.addColorStop(1,'#cfd8dc');
-    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);
-  }else if(d.theme==='noche'){
-    const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#0b1020');g.addColorStop(1,'#1f2937');
-    ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(255,255,255,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);
-  }else{
-    ctx.fillStyle=d.bg||'#000'; ctx.fillRect(0,0,c.width,c.height);
-  }
-  ctx.fillStyle = d.tx||'#fff';
-
-  const F=d.fonts;
+  if(d.theme==='oro'){const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#fff7d1');g.addColorStop(.55,'#f5d777');g.addColorStop(1,'#d4af37'); ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.06)'; for(let i=0;i<18;i++) ctx.fillRect(70*i,0,1,c.height);}
+  else if(d.theme==='plata'){const g=ctx.createLinearGradient(0,0,c.width,0); g.addColorStop(0,'#f5f7fa');g.addColorStop(1,'#cfd8dc'); ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(0,0,0,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);}
+  else if(d.theme==='noche'){const g=ctx.createLinearGradient(0,0,0,c.height); g.addColorStop(0,'#0b1020');g.addColorStop(1,'#1f2937'); ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle='rgba(255,255,255,.06)'; for(let i=0;i<14;i++) ctx.fillRect(0,48*i,c.width,1);}
+  else{ ctx.fillStyle=d.bg||'#000'; ctx.fillRect(0,0,c.width,c.height); }
+  ctx.fillStyle=d.tx||'#ffffff'; const F=d.fonts;
   ctx.font=`800 ${F.head}px "Poppins",sans-serif`; ctx.fillText('ESTÁS INVITADO/A A',60,80+F.head);
   ctx.font=`900 ${F.event}px "Poppins",sans-serif`; wrap(ctx, ev?ev.nombre:'Evento Meseta', 60, 150+F.head, 680, F.event);
   ctx.font=`700 ${F.guest}px "Poppins",sans-serif`; wrap(ctx, `Invitado/a: Juan Pérez`, 60, 170+F.head+F.event, 680, F.guest);
   ctx.font=`600 ${F.token}px "Poppins",sans-serif`; ctx.fillText(`Token: ABCD-1F2G`, 60, 200+F.head+F.event+F.guest);
   ctx.font=`500 ${F.note}px "Poppins",sans-serif`; ctx.fillText('Presentá este flyer al ingresar. El QR o el token son de uso único.',60,230+F.head+F.event+F.guest);
-
-  // QR demo
-  const qrUrl = buildURL('owner',{id:'g_demo',token:'ABCD-1F2G'});
-  const qrC=document.createElement('canvas'); await new Promise((res,rej)=>QRCode.toCanvas(qrC,qrUrl,{width:260,margin:2,errorCorrectionLevel:'M'},(e)=>e?rej(e):res()));
-  const qrX=c.width-60-260, qrY=60; ctx.save(); ctx.shadowColor='rgba(0,0,0,.18)'; ctx.shadowBlur=12; ctx.fillStyle='#fff';
-  roundRect(ctx,qrX-10,qrY-10,280,280,16); ctx.fill(); ctx.restore(); ctx.drawImage(qrC,qrX,qrY,260,260);
-
-  // Logo
-  if(d.logo){
-    await new Promise((res)=>{
-      const img=new Image();
-      img.onload=()=>{
-        const baseW=360,scale=(d.logoCfg.scale||160)/100;
-        const w=Math.max(40,Math.round(baseW*scale));
-        const ratio=img.naturalWidth/img.naturalHeight;
-        const h=Math.round(w/ratio);
-        const x=Math.min(Math.max(0,d.logoCfg.x||60),1200-w);
-        const y=Math.min(Math.max(0,d.logoCfg.y||560),675-h);
-        ctx.drawImage(img,x,y,w,h);
-        res();
-      };
-      img.src=d.logo;
-    });
-  }
+  try{ const qrUrl = buildURL('owner',{id:'g_demo',token:'ABCD-1F2G'}); const qrC=await drawQRCanvas(qrUrl,260); const qrX=c.width-60-260, qrY=60; ctx.save(); ctx.shadowColor='rgba(0,0,0,.18)'; ctx.shadowBlur=12; ctx.fillStyle='#fff'; roundRect(ctx,qrX-10,qrY-10,280,280,16); ctx.fill(); ctx.restore(); ctx.drawImage(qrC,qrX,qrY,260,260); }catch(_){}
+  if(d.logo){ try{ const img=await loadImage(d.logo); const baseW=360,scale=(d.logoCfg.scale||160)/100; const w=Math.max(40,Math.round(baseW*scale)); const h=Math.round(w/(img.naturalWidth/img.naturalHeight)); const x=Math.min(Math.max(0,d.logoCfg.x||60),1200-w); const y=Math.min(Math.max(0,d.logoCfg.y||560),675-h); ctx.drawImage(img,x,y,w,h);}catch(_){ }}
 }
 
-/* ===== UI init ===== */
+/* ---------- init ---------- */
 function hydrateUI(){
   $('ownerBadge').textContent='Dueño: ' + (state.owner?state.owner.email:'—');
   $('userChip').textContent = state.current || 'Invitado';
   $('loginBtn').classList.toggle('hidden', !!state.current);
   renderUsers(); renderEvents(); fillCombos(); refreshDesignEditor();
 }
-
-/* ===== Accesibilidad extra ===== */
 window.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ $('sideMenu').classList.remove('show'); }});
 </script>
 </body>
